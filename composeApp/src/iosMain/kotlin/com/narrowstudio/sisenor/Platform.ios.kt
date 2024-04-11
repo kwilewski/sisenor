@@ -1,3 +1,5 @@
+package com.narrowstudio.sisenor
+
 import platform.UIKit.UIDevice
 
 class IOSPlatform: Platform {

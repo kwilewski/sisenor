@@ -1,5 +1,7 @@
 package com.narrowstudio.sisenor.wordList.presentation
 
+import com.narrowstudio.sisenor.wordList.domain.WordList
+
 sealed interface WordListEvent {
-    object OnWordListClick: WordListEvent
+    data class OnWordListClick(val wordList: WordList) : WordListEvent
 }

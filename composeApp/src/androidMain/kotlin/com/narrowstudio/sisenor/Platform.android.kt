@@ -1,3 +1,5 @@
+package com.narrowstudio.sisenor
+
 import android.os.Build
 
 class AndroidPlatform : Platform {
