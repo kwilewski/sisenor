@@ -14,7 +14,7 @@ compose = "1.6.5"
 compose-plugin = "1.6.0"
 junit = "4.13.2"
 kotlin = "1.9.22"
-sql-delight = "1.5.5"
+sql-delight = "2.0.1"
 
 kotlinxDatetime = "0.5.0"
 material3Android = "1.2.1"
@@ -22,7 +22,7 @@ mvvmCore = "0.16.1"
 runtime = "1.5.5"
 
 [libraries]
-coroutines-extensions = { module = "com.squareup.sqldelight:coroutines-extensions", version.ref = "runtime" }
+coroutines-extensions = { module = "app.cash.sqldelight:coroutines-extensions", version.ref = "sql-delight" }
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
 kotlin-test-junit = { module = "org.jetbrains.kotlin:kotlin-test-junit", version.ref = "kotlin" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
@@ -41,11 +41,11 @@ mvvm-compose = { module = "dev.icerock.moko:mvvm-compose", version.ref = "mvvmCo
 mvvm-core = { module = "dev.icerock.moko:mvvm-core", version.ref = "mvvmCore" }
 mvvm-flow = { module = "dev.icerock.moko:mvvm-flow", version.ref = "mvvmCore" }
 mvvm-flow-compose = { module = "dev.icerock.moko:mvvm-flow-compose", version.ref = "mvvmCore" }
-runtime = { module = "com.squareup.sqldelight:runtime", version.ref = "runtime" }
+runtime = { module = "app.cash.sqldelight:runtime", version.ref = "sql-delight" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
 androidLibrary = { id = "com.android.library", version.ref = "agp" }
 jetbrainsCompose = { id = "org.jetbrains.compose", version.ref = "compose-plugin" }
 kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
-sqlDelight = { id = "com.squareup.sqldelight", version.ref = "sql-delight"}
+sqlDelight = { id = "app.cash.sqldelight", version.ref = "sql-delight"}
