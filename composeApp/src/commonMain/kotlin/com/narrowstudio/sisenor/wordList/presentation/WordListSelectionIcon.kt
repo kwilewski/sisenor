@@ -1,4 +1,4 @@
-package com.narrowstudio.sisenor.wordList.presentation.components
+package com.narrowstudio.sisenor.wordList.presentation
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box

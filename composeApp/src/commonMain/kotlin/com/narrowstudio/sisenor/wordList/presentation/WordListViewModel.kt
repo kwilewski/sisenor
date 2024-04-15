@@ -6,9 +6,11 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
 class WordListViewModel: ViewModel() {
-    private val _state = MutableStateFlow(WordListState(
+    private val _state = MutableStateFlow(
+        WordListState(
         wordLists = wordList
-    ))
+    )
+    )
     val state = _state.asStateFlow()
 
     fun onEvent(event: WordListEvent) {

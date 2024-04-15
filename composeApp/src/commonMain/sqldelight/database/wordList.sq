@@ -1,16 +1,17 @@
-CREATE TABLE wordListEntity (
-    id INTEGER NOT NULL PRIMARY KEY,
+CREATE TABLE wordEntity (
+    id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
     spanishWord TEXT NOT NULL,
     englishWord TEXT NOT NULL,
+    isSimilar INTEGER NOT NULL,
     audioPath TEXT
 );
 
 getWords:
 SELECT *
-FROM wordListEntity
+FROM wordEntity
 ORDER BY id ASC;
 
 getWordByID:
 SELECT *
-FROM wordListEntity
+FROM wordEntity
 WHERE id = :id;

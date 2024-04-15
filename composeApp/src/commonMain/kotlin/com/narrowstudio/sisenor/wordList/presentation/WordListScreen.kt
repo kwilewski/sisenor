@@ -15,7 +15,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.narrowstudio.sisenor.wordList.domain.WordList
-import com.narrowstudio.sisenor.wordList.presentation.components.WordListItem
 
 @Composable
 fun WordListScreen(
