@@ -4,6 +4,7 @@ plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsCompose)
+    alias(libs.plugins.sqlDelight)
 }
 
 kotlin {
@@ -47,6 +48,8 @@ kotlin {
                 implementation(libs.mvvm.compose)
                 implementation(libs.mvvm.flow)
                 implementation(libs.mvvm.flow.compose)
+
+                implementation(libs.coroutines.extensions)
             }
         }
         val commonTest by getting {
@@ -116,6 +119,14 @@ android {
         debugImplementation(libs.compose.ui.tooling)
     }
 }
+
+sqldelight{
+    database("WordListDatabase"){
+        packageName = "com.narrowstudio.sisenor.database"
+        sourceFolders = listOf("sqldelight")
+    }
+}
+
 dependencies {
     implementation("androidx.core:core:1.12.0")
     commonMainApi("dev.icerock.moko:mvvm-core:0.16.1")
