@@ -15,3 +15,13 @@ getWordByID:
 SELECT *
 FROM wordEntity
 WHERE id = :id;
+
+getWordsAtRange:
+SELECT *
+FROM wordEntity
+WHERE id >= ? AND id <= ?;
+
+getSimilarWords:
+SELECT *
+FROM wordEntity
+WHERE isSimilar == 1;

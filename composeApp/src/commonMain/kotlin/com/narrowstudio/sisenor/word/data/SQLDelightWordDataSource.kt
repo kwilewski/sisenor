@@ -1,0 +1,55 @@
+package com.narrowstudio.sisenor.word.data
+
+import app.cash.sqldelight.coroutines.asFlow
+import app.cash.sqldelight.coroutines.mapToList
+import com.narrowstudio.sisenor.database.WordDatabase
+import com.narrowstudio.sisenor.word.domain.Word
+import com.narrowstudio.sisenor.word.domain.WordDataSource
+import kotlinx.coroutines.currentCoroutineContext
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
+
+
+class SQLDelightWordDataSource(
+    db: WordDatabase
+): WordDataSource {
+
+    private val queries = db.wordListQueries
+    override suspend fun getWords(): Flow<List<Word>> {
+        return queries
+            .getWords()
+            .asFlow()
+            .mapToList(currentCoroutineContext())
+            .map { wordEntities ->
+                wordEntities.map {wordEntity ->
+                    wordEntity.toWord()
+                }
+            }
+    }
+
+    override suspend fun getRangeWords(startIndex: Long, endIndex: Long): Flow<List<Word>> {
+        return queries
+            .getWordsAtRange(startIndex, endIndex)
+            .asFlow()
+            .mapToList(currentCoroutineContext())
+            .map { wordEntities ->
+                wordEntities.map {wordEntity ->
+                    wordEntity.toWord()
+                }
+            }
+    }
+
+    override suspend fun getSimilarWords(): Flow<List<Word>> {
+        return queries
+            .getSimilarWords()
+            .asFlow()
+            .mapToList(currentCoroutineContext())
+            .map { wordEntities ->
+                wordEntities.map {wordEntity ->
+                    wordEntity.toWord()
+                }
+            }
+    }
+
+
+}

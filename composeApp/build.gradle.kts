@@ -123,8 +123,9 @@ android {
 
 sqldelight{
     databases {
-        create(name = "WordListDatabase") {
+        create("WordDatabase") {
             packageName.set("com.narrowstudio.sisenor.database")
+            srcDirs.setFrom("src/commonMain/sqldelight")
         }
     }
 
