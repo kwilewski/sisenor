@@ -28,9 +28,21 @@ import com.narrowstudio.sisenor.wordList.presentation.WordListScreen
 import com.narrowstudio.sisenor.wordList.presentation.WordListViewModel
 import dev.icerock.moko.mvvm.compose.getViewModel
 import dev.icerock.moko.mvvm.compose.viewModelFactory
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.launch
+import org.jetbrains.compose.resources.ExperimentalResourceApi
+import org.jetbrains.compose.resources.StringResource
+import org.jetbrains.compose.resources.getString
+import org.jetbrains.compose.resources.stringArrayResource
+import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
+import sisenor.composeapp.generated.resources.Res
+import sisenor.composeapp.generated.resources.hello_array
+import sisenor.composeapp.generated.resources.welcome
+import kotlin.random.Random
 
 
+@OptIn(ExperimentalResourceApi::class)
 @Composable
 @Preview
 fun App(
@@ -61,7 +73,9 @@ fun App(
     WordListTheme(
         darkTheme = darkTheme,
         dynamicColor = dynamicColor
-    ) {
+    ){
+        val scope = rememberCoroutineScope()
+
         Surface(
             color = MaterialTheme.colorScheme.background
         ) {
@@ -79,9 +93,10 @@ fun App(
                 ) {
                     Text(
                         modifier = Modifier.align(Alignment.Center),
-                        text = "Buenos dias",
+                        text = getHelloString(),
                         fontSize = 50.sp,
-                        fontWeight = FontWeight.Bold
+                        fontWeight = FontWeight.Bold,
+                        textAlign = TextAlign.Center
                     )
                 }
                 // ---------------------------------------------------------- Start button
@@ -118,4 +133,12 @@ fun App(
         }
 
     }
+}
+
+@OptIn(ExperimentalResourceApi::class)
+@Composable
+fun getHelloString(): String {
+    val list = stringArrayResource(Res.string.hello_array)
+    val index = list.size
+    return list[Random.nextInt(0, index - 1)]
 }
