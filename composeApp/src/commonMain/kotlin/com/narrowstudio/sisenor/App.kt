@@ -38,6 +38,7 @@ import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import sisenor.composeapp.generated.resources.Res
 import sisenor.composeapp.generated.resources.hello_array
+import sisenor.composeapp.generated.resources.start_array
 import sisenor.composeapp.generated.resources.welcome
 import kotlin.random.Random
 
@@ -117,8 +118,8 @@ fun App(
                             contentAlignment = Alignment.Center,
                         ) {
                             Text(
-                                text = "Vamos",
-                                fontSize = 50.sp,
+                                text = getStartString(),
+                                fontSize = 30.sp,
                                 fontWeight = FontWeight.Bold,
                                 modifier = Modifier.fillMaxWidth(),
                                 textAlign = TextAlign.Center
@@ -139,6 +140,14 @@ fun App(
 @Composable
 fun getHelloString(): String {
     val list = stringArrayResource(Res.string.hello_array)
+    val index = list.size
+    return list[Random.nextInt(0, index - 1)]
+}
+
+@OptIn(ExperimentalResourceApi::class)
+@Composable
+fun getStartString(): String {
+    val list = stringArrayResource(Res.string.start_array)
     val index = list.size
     return list[Random.nextInt(0, index - 1)]
 }

@@ -13,5 +13,11 @@
         <item>Hola!</item>
     </string-array>
 
+    <string-array
+        name="start_array">
+        <item>Start</item>
+        <item>Vamos</item>
+    </string-array>
+
 
 </resources>
