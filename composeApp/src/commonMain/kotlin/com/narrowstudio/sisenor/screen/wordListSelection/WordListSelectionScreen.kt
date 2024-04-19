@@ -45,8 +45,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.BaselineShift
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import cafe.adriel.voyager.core.screen.Screen
@@ -61,6 +65,8 @@ import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import sisenor.composeapp.generated.resources.Res
+import sisenor.composeapp.generated.resources.popular_words
+import sisenor.composeapp.generated.resources.selected
 import sisenor.composeapp.generated.resources.selected_words
 import sisenor.composeapp.generated.resources.selection_top_bar
 
@@ -221,11 +227,26 @@ fun RangeSlider(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
-            text = stringResource(Res.string.selected_words, selectedBottomRange, selectedTopRange),
+            text = stringResource(Res.string.selected),
             modifier = Modifier.fillMaxWidth(.8f),
             textAlign = TextAlign.Center,
-            fontSize = 36.sp,
-            lineHeight = 50.sp,
+            fontSize = 24.sp,
+            //lineHeight = 44.sp,
+        )
+        Text(
+            text = "$selectedBottomRange - $selectedTopRange",
+            modifier = Modifier.fillMaxWidth(.8f),
+            textAlign = TextAlign.Center,
+            color = MaterialTheme.colorScheme.primary,
+            fontSize = 44.sp,
+            //lineHeight = 44.sp,
+        )
+        Text(
+            text = stringResource(Res.string.popular_words),
+            modifier = Modifier.fillMaxWidth(.8f),
+            textAlign = TextAlign.Center,
+            fontSize = 24.sp,
+            //lineHeight = 44.sp,
         )
         Spacer(modifier = Modifier.size(150.dp))
         RangeSlider(
