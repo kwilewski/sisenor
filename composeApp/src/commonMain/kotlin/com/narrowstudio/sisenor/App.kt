@@ -23,7 +23,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import cafe.adriel.voyager.navigator.Navigator
+import cafe.adriel.voyager.transitions.SlideTransition
 import com.narrowstudio.sisenor.core.presentation.WordListTheme
+import com.narrowstudio.sisenor.screen.home.HomeScreen
 import com.narrowstudio.sisenor.wordList.presentation.WordListScreen
 import com.narrowstudio.sisenor.wordList.presentation.WordListViewModel
 import dev.icerock.moko.mvvm.compose.getViewModel
@@ -49,105 +52,15 @@ import kotlin.random.Random
 fun App(
     darkTheme: Boolean,
     dynamicColor: Boolean
-) {/*
-    WordListTheme(
-        darkTheme = darkTheme,
-        dynamicColor = dynamicColor
-    ) {
-        val viewModel = getViewModel(
-            key = "word-list-screen",
-            factory = viewModelFactory {
-                WordListViewModel()
-            }
-        )
-        val state by viewModel.state.collectAsState()
-        Surface(
-            modifier = Modifier.fillMaxSize(),
-            color = MaterialTheme.colorScheme.background
-        ) {
-            WordListScreen(
-                state = state,
-                onEvent = viewModel::onEvent
-            )
-        }
-    }*/
+) {
     WordListTheme(
         darkTheme = darkTheme,
         dynamicColor = dynamicColor
     ){
-        val scope = rememberCoroutineScope()
-
-        Surface(
-            color = MaterialTheme.colorScheme.background
-        ) {
-            Column(
-                modifier = Modifier
-                    .fillMaxSize(),
-                horizontalAlignment = Alignment.CenterHorizontally,
-//                verticalArrangement = Arrangement.SpaceAround
-            ) {
-                //------------------------------------------------------------ Greeting screen
-                Box(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .weight(1f)
-                ) {
-                    Text(
-                        modifier = Modifier.align(Alignment.Center),
-                        text = getHelloString(),
-                        fontSize = 50.sp,
-                        fontWeight = FontWeight.Bold,
-                        textAlign = TextAlign.Center
-                    )
-                }
-                // ---------------------------------------------------------- Start button
-                Box(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .weight(1f)
-                ) {
-                    Column(
-                        modifier = Modifier.fillMaxSize(),
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                    ) {
-                        Box(
-                            modifier = Modifier.weight(3f)
-                                .clickable {
-                                    //TODO
-                                },
-                            contentAlignment = Alignment.Center,
-                        ) {
-                            Text(
-                                text = getStartString(),
-                                fontSize = 30.sp,
-                                fontWeight = FontWeight.Bold,
-                                modifier = Modifier.fillMaxWidth(),
-                                textAlign = TextAlign.Center
-                            )
-                        }
-                        Box(
-                            modifier = Modifier.weight(2f)
-                        )
-                    }
-                }
-            }
+        Navigator(HomeScreen()) {navigator ->
+            SlideTransition(navigator)
         }
 
     }
 }
 
-@OptIn(ExperimentalResourceApi::class)
-@Composable
-fun getHelloString(): String {
-    val list = stringArrayResource(Res.string.hello_array)
-    val index = list.size
-    return list[Random.nextInt(0, index - 1)]
-}
-
-@OptIn(ExperimentalResourceApi::class)
-@Composable
-fun getStartString(): String {
-    val list = stringArrayResource(Res.string.start_array)
-    val index = list.size
-    return list[Random.nextInt(0, index - 1)]
-}

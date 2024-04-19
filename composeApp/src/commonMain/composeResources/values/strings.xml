@@ -1,22 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Si senor</string>
 
-    <string name="welcome">Hello!</string>
-    <string name="welcome2">Hi!</string>
-    <string name="welcome3">Buenos dias!</string>
-    <string name="welcome4">Hola!</string>
     <string-array
         name="hello_array">
-        <item>Hello!</item>
-        <item>Hi!</item>
-        <item>Buenos dias!</item>
-        <item>Hola!</item>
+        <item>Hello</item>
+        <item>Hi</item>
+        <item>Buenos días</item>
+        <item>Hola</item>
     </string-array>
 
     <string-array
         name="start_array">
-        <item>Start</item>
-        <item>Vamos</item>
+        <item>Start!</item>
+        <item>¡Vamos!</item>
     </string-array>
 
 
