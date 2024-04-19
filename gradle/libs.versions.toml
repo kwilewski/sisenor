@@ -21,6 +21,7 @@ material3Android = "1.2.1"
 mvvmCore = "0.16.1"
 runtime = "1.5.5"
 voyager = "1.1.0-alpha04"
+window-size = "0.5.0"
 
 [libraries]
 coroutines-extensions = { module = "app.cash.sqldelight:coroutines-extensions", version.ref = "sql-delight" }
@@ -48,6 +49,7 @@ voyager-screenmodel = { module = "cafe.adriel.voyager:voyager-screenmodel", vers
 voyager-bottom-sheet-navigator = { module = "cafe.adriel.voyager:voyager-bottom-sheet-navigator", version.ref = "voyager" }
 voyager-tab-navigator = { module = "cafe.adriel.voyager:voyager-tab-navigator", version.ref = "voyager" }
 voyager-tab-transitions = { module = "cafe.adriel.voyager:voyager-transitions", version.ref = "voyager" }
+window-size = { module = "dev.chrisbanes.material3:material3-window-size-class-multiplatform", version.ref = "window-size"}
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

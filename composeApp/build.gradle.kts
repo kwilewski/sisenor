@@ -57,6 +57,9 @@ kotlin {
                 implementation(libs.voyager.tab.navigator)
                 implementation(libs.voyager.tab.transitions)
 
+                implementation(libs.window.size)
+
+
 
             }
         }

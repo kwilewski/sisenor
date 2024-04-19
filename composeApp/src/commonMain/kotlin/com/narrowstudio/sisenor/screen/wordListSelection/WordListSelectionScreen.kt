@@ -74,6 +74,7 @@ class WordListSelectionScreen: Screen {
         val selectedBottomRange by viewModel.selectedBottomRangeProcessed.collectAsState()
         val selectedTopRange by viewModel.selectedTopRangeProcessed.collectAsState()
 
+
         Scaffold (
             topBar = {
                 TopBar(
@@ -87,45 +88,48 @@ class WordListSelectionScreen: Screen {
                 )
             }
         ) {
-            Surface(
-                modifier = Modifier.fillMaxSize()
-                    .padding(it),
-                color = MaterialTheme.colorScheme.background,
-            ) {
-                Column (
-                    modifier = Modifier
-                        .fillMaxSize(),
-                    verticalArrangement = Arrangement.Center,
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ){
-                    RangeSlider(
-                        bottomRange = viewModel.bottomRange,
-                        topRange = viewModel.topRange,
-                        selectedBottomRange = selectedBottomRange,
-                        selectedTopRange = selectedTopRange,
-                        onEvent = { range ->
-                            viewModel.onRangeChanged(range)
-                        }
-                    )
-                    Spacer(modifier = Modifier.size(70.dp))
-                    Button(onClick = {
-                        // TODO
-                        },
-                        modifier = Modifier.height(70.dp)
-                            .width(70.dp),
-                        shape = RoundedCornerShape(50),
-                        //colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.primary)
+                Surface(
+                    modifier = Modifier.fillMaxSize()
+                        .padding(it),
+                    color = MaterialTheme.colorScheme.background,
+                ) {
+                    Column(
+                        modifier = Modifier
+                            .fillMaxSize(),
+                        verticalArrangement = Arrangement.Center,
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        RangeSlider(
+                            bottomRange = viewModel.bottomRange,
+                            topRange = viewModel.topRange,
+                            selectedBottomRange = selectedBottomRange,
+                            selectedTopRange = selectedTopRange,
+                            onEvent = { range ->
+                                viewModel.onRangeChanged(range)
+                            }
+                        )
+                        Spacer(modifier = Modifier.size(70.dp))
+                        Button(
+                            onClick = {
+                                // TODO
+                            },
+                            modifier = Modifier.height(70.dp)
+                                .width(70.dp),
+                            shape = RoundedCornerShape(50),
+                            //colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.primary)
                         ) {
-                        Icon(Icons.AutoMirrored.Rounded.ArrowForward,
-                            contentDescription = "Confirm",
-                            tint = MaterialTheme.colorScheme.onPrimary,
-                            modifier = Modifier.size(36.dp))
+                            Icon(
+                                Icons.AutoMirrored.Rounded.ArrowForward,
+                                contentDescription = "Confirm",
+                                tint = MaterialTheme.colorScheme.onPrimary,
+                                modifier = Modifier.size(36.dp)
+                            )
+                        }
                     }
-                }
 
+                }
             }
         }
-    }
 
 }
 
