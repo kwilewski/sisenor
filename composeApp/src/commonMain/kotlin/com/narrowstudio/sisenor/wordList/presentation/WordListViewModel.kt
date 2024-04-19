@@ -21,10 +21,10 @@ class WordListViewModel: ViewModel() {
     var bottomRange: Float = 0f
     var topRange: Float = 12f
 
-    val _selectedBottomRangeProcessed = MutableStateFlow(CONST_WORD_LIST_RANGE_SECTIONS[0])
+    private val _selectedBottomRangeProcessed = MutableStateFlow(CONST_WORD_LIST_RANGE_SECTIONS[0])
     val selectedBottomRangeProcessed = _selectedBottomRangeProcessed.asStateFlow()
 
-    val _selectedTopRangeProcessed = MutableStateFlow(CONST_WORD_LIST_RANGE_SECTIONS[CONST_WORD_LIST_RANGE_SECTIONS.size - 1])
+    private val _selectedTopRangeProcessed = MutableStateFlow(CONST_WORD_LIST_RANGE_SECTIONS[CONST_WORD_LIST_RANGE_SECTIONS.size - 1])
     val selectedTopRangeProcessed = _selectedTopRangeProcessed.asStateFlow()
 
     fun onRangeChanged(range: ClosedFloatingPointRange<Float>){
