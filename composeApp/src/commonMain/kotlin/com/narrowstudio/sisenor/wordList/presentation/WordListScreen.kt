@@ -2,6 +2,7 @@ package com.narrowstudio.sisenor.wordList.presentation
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -19,25 +20,25 @@ import com.narrowstudio.sisenor.wordList.domain.WordList
 @Composable
 fun WordListScreen(
     state: WordListState,
-    onEvent: (WordListEvent) -> Unit
+    onEvent: (WordListEvent) -> Unit,
+    modifier: Modifier = Modifier
 ) {
-    Scaffold( ) {
+    Column (
+        modifier = modifier
+    ){
+        Text(
+            text = "Most popular words",
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp),
+            fontWeight = FontWeight.Bold
+        )
         LazyColumn(
-            modifier = Modifier.fillMaxSize(),
+            modifier = Modifier.fillMaxWidth(),
             contentPadding = PaddingValues(vertical = 16.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            item {
-                Text(
-                    text = "Most popular words",
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(16.dp),
-                    fontWeight = FontWeight.Bold
-                )
-            }
-
-            items(state.wordLists) {wordList: WordList ->  
+            items(state.wordLists) { wordList: WordList ->
                 WordListItem(
                     wordList = wordList,
                     modifier = Modifier

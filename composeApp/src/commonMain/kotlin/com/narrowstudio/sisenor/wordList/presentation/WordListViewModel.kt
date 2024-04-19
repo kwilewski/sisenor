@@ -13,9 +13,20 @@ class WordListViewModel: ViewModel() {
     )
     val state = _state.asStateFlow()
 
+    var bottomRange: Float = 0f
+    var topRange: Float = 13f
+
+    fun onRangeChanged(range: ClosedFloatingPointRange<Float>){
+        bottomRange = range.start
+        topRange = range.endInclusive
+    }
+
     fun onEvent(event: WordListEvent) {
 
     }
+
+
+
 }
 
 private val wordList = (1 .. 20).map{
