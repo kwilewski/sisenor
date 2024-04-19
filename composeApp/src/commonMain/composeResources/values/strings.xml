@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Si senor</string>
+    <string name="selection_top_bar">Package selection</string>
 
     <string-array
         name="hello_array">

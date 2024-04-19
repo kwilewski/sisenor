@@ -141,6 +141,7 @@ sqldelight{
 
 dependencies {
     implementation("androidx.core:core:1.12.0")
+    implementation(libs.androidx.material3.android)
     commonMainApi("dev.icerock.moko:mvvm-core:0.16.1")
     commonMainApi("dev.icerock.moko:mvvm-compose:0.16.1")
     commonMainApi("dev.icerock.moko:mvvm-flow:0.16.1")
