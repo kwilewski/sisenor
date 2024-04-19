@@ -5,6 +5,7 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
@@ -32,6 +33,10 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarColors
 import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
+import androidx.compose.material3.windowsizeclass.WindowSizeClass
+import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
+import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -59,8 +64,11 @@ import sisenor.composeapp.generated.resources.Res
 import sisenor.composeapp.generated.resources.selected_words
 import sisenor.composeapp.generated.resources.selection_top_bar
 
-class WordListSelectionScreen: Screen {
-    @OptIn(ExperimentalMaterial3Api::class, ExperimentalResourceApi::class)
+class WordListSelectionScreen : Screen {
+    @OptIn(
+        ExperimentalMaterial3Api::class, ExperimentalResourceApi::class,
+        ExperimentalMaterial3WindowSizeClassApi::class
+    )
     @Composable
     override fun Content() {
         val navigator = LocalNavigator.current
@@ -74,41 +82,103 @@ class WordListSelectionScreen: Screen {
         val selectedBottomRange by viewModel.selectedBottomRangeProcessed.collectAsState()
         val selectedTopRange by viewModel.selectedTopRangeProcessed.collectAsState()
 
+        val windowSize = calculateWindowSizeClass()
+        when (windowSize.widthSizeClass) {
+            WindowWidthSizeClass.Compact -> {
 
-        Scaffold (
-            topBar = {
-                TopBar(
-                    title = stringResource(Res.string.selection_top_bar),
-                    onNavigationClick = {
-                        navigator?.pop()
-                    },
-                    onSettingClick = {
-                        //TODO
+
+                Scaffold(
+                    topBar = {
+                        TopBar(
+                            title = stringResource(Res.string.selection_top_bar),
+                            onNavigationClick = {
+                                navigator?.pop()
+                            },
+                            onSettingClick = {
+                                //TODO
+                            }
+                        )
                     }
-                )
+                ) {
+                    Surface(
+                        modifier = Modifier.fillMaxSize()
+                            .padding(it),
+                        color = MaterialTheme.colorScheme.background,
+                    ) {
+                        Column(
+                            modifier = Modifier
+                                .fillMaxSize(),
+                            verticalArrangement = Arrangement.Center,
+                            horizontalAlignment = Alignment.CenterHorizontally
+                        ) {
+                            RangeSlider(
+                                bottomRange = viewModel.bottomRange,
+                                topRange = viewModel.topRange,
+                                selectedBottomRange = selectedBottomRange,
+                                selectedTopRange = selectedTopRange,
+                                modifier = Modifier.fillMaxHeight(.7f),
+                                onEvent = { range ->
+                                    viewModel.onRangeChanged(range)
+                                }
+                            )
+                            Spacer(modifier = Modifier.size(70.dp))
+                            Button(
+                                onClick = {
+                                    // TODO
+                                },
+                                modifier = Modifier.height(70.dp)
+                                    .width(70.dp),
+                                shape = RoundedCornerShape(50),
+                                //colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.primary)
+                            ) {
+                                Icon(
+                                    Icons.AutoMirrored.Rounded.ArrowForward,
+                                    contentDescription = "Confirm",
+                                    tint = MaterialTheme.colorScheme.onPrimary,
+                                    modifier = Modifier.size(36.dp)
+                                )
+                            }
+                        }
+
+                    }
+                }
             }
-        ) {
+
+            else -> Scaffold(
+                topBar = {
+                    TopBar(
+                        title = stringResource(Res.string.selection_top_bar),
+                        onNavigationClick = {
+                            navigator?.pop()
+                        },
+                        onSettingClick = {
+                            //TODO
+                        }
+                    )
+                }
+            ) {
                 Surface(
                     modifier = Modifier.fillMaxSize()
                         .padding(it),
                     color = MaterialTheme.colorScheme.background,
                 ) {
-                    Column(
+                    Row(
                         modifier = Modifier
                             .fillMaxSize(),
-                        verticalArrangement = Arrangement.Center,
-                        horizontalAlignment = Alignment.CenterHorizontally
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.Center
                     ) {
                         RangeSlider(
                             bottomRange = viewModel.bottomRange,
                             topRange = viewModel.topRange,
                             selectedBottomRange = selectedBottomRange,
                             selectedTopRange = selectedTopRange,
+                            modifier = Modifier.fillMaxWidth(.7f),
                             onEvent = { range ->
                                 viewModel.onRangeChanged(range)
                             }
                         )
-                        Spacer(modifier = Modifier.size(70.dp))
+                        Spacer(modifier = Modifier.size(50.dp))
                         Button(
                             onClick = {
                                 // TODO
@@ -130,8 +200,9 @@ class WordListSelectionScreen: Screen {
                 }
             }
         }
-
+    }
 }
+
 
 @OptIn(ExperimentalResourceApi::class)
 @Preview
@@ -141,11 +212,12 @@ fun RangeSlider(
     topRange: Float,
     selectedBottomRange: Int,
     selectedTopRange: Int,
-    onEvent:(ClosedFloatingPointRange<Float>) -> Unit
+    modifier: Modifier = Modifier,
+    onEvent: (ClosedFloatingPointRange<Float>) -> Unit
 ) {
     var sliderPosition by remember { mutableStateOf(bottomRange..topRange) }
-    Column (
-        modifier = Modifier.padding(40.dp),
+    Column(
+        modifier = modifier.padding(40.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
@@ -161,12 +233,13 @@ fun RangeSlider(
             steps = 11,
             onValueChange = { range ->
                 sliderPosition = range
-                onEvent(sliderPosition)},
+                onEvent(sliderPosition)
+            },
             valueRange = 0f..12f,
             onValueChangeFinished = {
                 onEvent(sliderPosition)
             },
 
-        )
+            )
     }
 }
