@@ -20,6 +20,7 @@ kotlinxDatetime = "0.5.0"
 material3Android = "1.2.1"
 mvvmCore = "0.16.1"
 runtime = "1.5.5"
+voyager = "1.1.0-alpha04"
 
 [libraries]
 coroutines-extensions = { module = "app.cash.sqldelight:coroutines-extensions", version.ref = "sql-delight" }
@@ -42,6 +43,11 @@ mvvm-core = { module = "dev.icerock.moko:mvvm-core", version.ref = "mvvmCore" }
 mvvm-flow = { module = "dev.icerock.moko:mvvm-flow", version.ref = "mvvmCore" }
 mvvm-flow-compose = { module = "dev.icerock.moko:mvvm-flow-compose", version.ref = "mvvmCore" }
 runtime = { module = "app.cash.sqldelight:runtime", version.ref = "sql-delight" }
+voyager-navigator = { module = "cafe.adriel.voyager:voyager-navigator", version.ref = "voyager" }
+voyager-screenmodel = { module = "cafe.adriel.voyager:voyager-screenmodel", version.ref = "voyager" }
+voyager-bottom-sheet-navigator = { module = "cafe.adriel.voyager:voyager-bottom-sheet-navigator", version.ref = "voyager" }
+voyager-tab-navigator = { module = "cafe.adriel.voyager:voyager-tab-navigator", version.ref = "voyager" }
+voyager-tab-transitions = { module = "cafe.adriel.voyager:voyager-transitions", version.ref = "voyager" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

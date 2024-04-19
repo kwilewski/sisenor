@@ -50,6 +50,14 @@ kotlin {
                 implementation(libs.mvvm.flow.compose)
 
                 implementation(libs.coroutines.extensions)
+
+                implementation(libs.voyager.navigator)
+                implementation(libs.voyager.screenmodel)
+                implementation(libs.voyager.bottom.sheet.navigator)
+                implementation(libs.voyager.tab.navigator)
+                implementation(libs.voyager.tab.transitions)
+
+
             }
         }
         val commonTest by getting {
