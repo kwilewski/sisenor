@@ -80,8 +80,8 @@ class WordListSelectionScreen: Screen {
                         modifier = Modifier.fillMaxHeight(.5f)
                     )
                     RangeSlider(
-                        bottomRange = viewModel.bottomRange,
-                        topRange = viewModel.topRange,
+                        bottomRange = viewModel.selectedBottomRange,
+                        topRange = viewModel.selectedTopRange,
                         onEvent = { range ->
                             viewModel.onRangeChanged(range)
                         }

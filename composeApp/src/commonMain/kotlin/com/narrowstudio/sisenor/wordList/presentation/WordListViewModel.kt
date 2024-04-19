@@ -1,5 +1,8 @@
 package com.narrowstudio.sisenor.wordList.presentation
 
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import com.narrowstudio.sisenor.wordList.domain.WordList
 import dev.icerock.moko.mvvm.viewmodel.ViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -13,13 +16,16 @@ class WordListViewModel: ViewModel() {
     )
     val state = _state.asStateFlow()
 
-    var bottomRange: Float = 0f
-    var topRange: Float = 13f
+
+    var selectedBottomRange by mutableStateOf(0f)
+    var selectedTopRange by mutableStateOf(13f)
 
     fun onRangeChanged(range: ClosedFloatingPointRange<Float>){
-        bottomRange = range.start
-        topRange = range.endInclusive
+        selectedBottomRange = range.start
+        selectedTopRange = range.endInclusive
     }
+
+
 
     fun onEvent(event: WordListEvent) {
 
