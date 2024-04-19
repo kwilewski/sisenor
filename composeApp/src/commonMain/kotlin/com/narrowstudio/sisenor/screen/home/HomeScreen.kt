@@ -96,7 +96,7 @@ class HomeScreen : Screen {
 fun getHelloString(): String {
     val list = stringArrayResource(Res.string.hello_array)
     val index = list.size
-    return list[Random.nextInt(0, index)]
+    return list[Random.nextInt(0, index - 1)]
 }
 
 @OptIn(ExperimentalResourceApi::class)
@@ -104,5 +104,5 @@ fun getHelloString(): String {
 fun getStartString(): String {
     val list = stringArrayResource(Res.string.start_array)
     val index = list.size
-    return list[Random.nextInt(0, index)]
+    return list[Random.nextInt(0, index - 1)]
 }

@@ -54,6 +54,7 @@ class WordListSelectionScreen: Screen {
             }
         )
         val state by viewModel.state.collectAsState()
+        val selectedBottomRange by viewModel.selectedBottomRangeProcessed.collectAsState()
 
         Scaffold (
             topBar = {
@@ -80,12 +81,13 @@ class WordListSelectionScreen: Screen {
                         modifier = Modifier.fillMaxHeight(.5f)
                     )
                     RangeSlider(
-                        bottomRange = viewModel.selectedBottomRange,
-                        topRange = viewModel.selectedTopRange,
+                        bottomRange = viewModel.bottomRange,
+                        topRange = viewModel.topRange,
                         onEvent = { range ->
                             viewModel.onRangeChanged(range)
                         }
                     )
+                    Text(selectedBottomRange.toString())
                 }
             }
         }
@@ -107,10 +109,11 @@ fun RangeSlider(
         Text(text = sliderPosition.toString())
         RangeSlider(
             value = sliderPosition,
-            steps = 12,
+            steps = 11,
             onValueChange = { range ->
-                sliderPosition = range },
-            valueRange = 0f..13f,
+                sliderPosition = range
+                onEvent(sliderPosition)},
+            valueRange = 0f..12f,
             onValueChangeFinished = {
                 onEvent(sliderPosition)
             },
