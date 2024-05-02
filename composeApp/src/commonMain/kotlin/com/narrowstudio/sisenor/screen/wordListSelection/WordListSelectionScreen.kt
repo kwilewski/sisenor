@@ -253,8 +253,11 @@ fun RangeSlider(
             value = sliderPosition,
             steps = 11,
             onValueChange = { range ->
-                sliderPosition = range
-                onEvent(sliderPosition)
+                // disabling start and end values to be the same
+                if (range.start != range.endInclusive) {
+                    sliderPosition = range
+                    onEvent(sliderPosition)
+                }
             },
             valueRange = 0f..12f,
             onValueChangeFinished = {
