@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Si senor</string>
-    <string name="selection_top_bar">Package selection</string>
+    <string name="selection_top_bar">Popularity selection</string>
 
     <string name="selected_words">Selected\n%1$d - %2$d\nmost popular words</string>
     <string name="selected">Selected</string>
