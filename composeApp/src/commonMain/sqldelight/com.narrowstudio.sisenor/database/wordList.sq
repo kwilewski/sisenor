@@ -3,6 +3,7 @@ CREATE TABLE wordEntity (
     spanishWord TEXT NOT NULL,
     englishWord TEXT NOT NULL,
     isSimilar INTEGER NOT NULL,
+    learned INTEGER,
     audioPath TEXT
 );
 
@@ -25,3 +26,8 @@ getSimilarWords:
 SELECT *
 FROM wordEntity
 WHERE isSimilar == 1;
+
+getNotLearnedWordsAtRange:
+SELECT *
+FROM wordEntity
+WHERE learned != 1;
