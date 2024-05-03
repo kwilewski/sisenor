@@ -39,6 +39,7 @@ import androidx.compose.ui.unit.sp
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import com.narrowstudio.sisenor.screen.TopBar
+import com.narrowstudio.sisenor.word.presentation.WordScreen
 import com.narrowstudio.sisenor.wordList.presentation.WordListViewModel
 import dev.icerock.moko.mvvm.compose.getViewModel
 import dev.icerock.moko.mvvm.compose.viewModelFactory
@@ -110,7 +111,7 @@ class WordListSelectionScreen : Screen {
                             Spacer(modifier = Modifier.size(70.dp))
                             Button(
                                 onClick = {
-                                    // TODO
+                                    navigator?.push(WordScreen())
                                 },
                                 modifier = Modifier.height(70.dp)
                                     .width(70.dp),
@@ -167,7 +168,7 @@ class WordListSelectionScreen : Screen {
                         Spacer(modifier = Modifier.size(50.dp))
                         Button(
                             onClick = {
-                                // TODO
+                                navigator?.push(WordScreen())
                             },
                             modifier = Modifier.height(70.dp)
                                 .width(70.dp),
