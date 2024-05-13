@@ -68,7 +68,7 @@ class WordScreen : Screen {
             ) {
                 Column {
                     WordDisplayBox(
-                        spanishWord = "spanish long test try sfdjaonadvf sadfgoij gadjifdag adfgf sdg dsfds",
+                        spanishWord = "spanish ",
                         englishWord = "english",
                         modifier = Modifier.fillMaxWidth()
                             .fillMaxHeight(0.6f)

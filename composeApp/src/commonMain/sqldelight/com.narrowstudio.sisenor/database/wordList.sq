@@ -3,7 +3,7 @@ CREATE TABLE wordEntity (
     spanishWord TEXT NOT NULL,
     englishWord TEXT NOT NULL,
     isSimilar INTEGER NOT NULL,
-    learned INTEGER,
+    isLearned INTEGER,
     audioPath TEXT
 );
 
@@ -30,4 +30,4 @@ WHERE isSimilar == 1;
 getNotLearnedWordsAtRange:
 SELECT *
 FROM wordEntity
-WHERE learned != 1;
+WHERE isLearned != 1;

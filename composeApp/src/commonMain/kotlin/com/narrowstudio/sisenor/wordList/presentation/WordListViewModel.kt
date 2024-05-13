@@ -3,6 +3,7 @@ package com.narrowstudio.sisenor.wordList.presentation
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import com.narrowstudio.sisenor.word.domain.WordsManager
 import com.narrowstudio.sisenor.wordList.domain.CONST_WORD_LIST_RANGE_SECTIONS
 import com.narrowstudio.sisenor.wordList.domain.WordList
 import dev.icerock.moko.mvvm.viewmodel.ViewModel
@@ -13,7 +14,6 @@ import kotlin.math.roundToInt
 class WordListViewModel: ViewModel() {
     private val _state = MutableStateFlow(
         WordListState(
-        wordLists = wordList
     )
     )
     val state = _state.asStateFlow()
@@ -40,6 +40,13 @@ class WordListViewModel: ViewModel() {
         _selectedTopRangeProcessed.value = CONST_WORD_LIST_RANGE_SECTIONS[topRange.roundToInt()]
     }
 
+    private fun sendWordListRange(){
+        WordsManager.setWordsRange(
+            bottom = _selectedBottomRangeProcessed.value,
+            top = _selectedTopRangeProcessed.value
+        )
+    }
+
 
 
     fun onEvent(event: WordListEvent) {
@@ -48,12 +55,4 @@ class WordListViewModel: ViewModel() {
 
 
 
-}
-
-private val wordList = (1 .. 20).map{
-    WordList(
-        id = it.toLong(),
-        name = "List nr. $it",
-        isSelected = false
-    )
 }

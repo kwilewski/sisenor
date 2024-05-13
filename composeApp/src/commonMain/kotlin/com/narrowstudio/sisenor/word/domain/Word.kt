@@ -5,5 +5,6 @@ data class Word(
     val spanishWord: String,
     val englishWord: String,
     val isSimilar: Boolean,
+    val isLearned: Boolean?,
     val audioBytes: ByteArray?
 )
