@@ -59,6 +59,10 @@ kotlin {
 
                 implementation(libs.window.size)
 
+                api(libs.koin.core)
+                implementation(libs.koin.compose)
+                implementation(libs.lifecycle.viewmodel)
+                implementation(libs.navigation.compose)
 
 
             }
@@ -90,6 +94,8 @@ kotlin {
             implementation(libs.compose.ui.tooling.preview)
             implementation(libs.androidx.activity.compose)
             implementation ("app.cash.sqldelight:android-driver:2.0.1")
+            implementation(libs.koin.android)
+            implementation(libs.koin.androidx.compose)
         }
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)
