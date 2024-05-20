@@ -77,6 +77,7 @@ kotlin {
         val desktopMain by getting {
             dependencies {
                 implementation(libs.sqldelight.desktop)
+                api(libs.koin.core)
             }
         }
 
