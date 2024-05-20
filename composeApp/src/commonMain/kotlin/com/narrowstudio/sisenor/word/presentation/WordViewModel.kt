@@ -1,9 +1,10 @@
 package com.narrowstudio.sisenor.word.presentation
 
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.narrowstudio.sisenor.word.domain.Word
 import com.narrowstudio.sisenor.word.domain.WordDataSource
 import com.narrowstudio.sisenor.word.domain.WordsManager
-import dev.icerock.moko.mvvm.viewmodel.ViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -32,6 +33,7 @@ class WordViewModel(
                     words = words
                 )
             }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000L), WordState())
+            println(state.toString())
         }
     }
 

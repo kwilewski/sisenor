@@ -6,7 +6,9 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
+import com.narrowstudio.sisenor.di.AppModule
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -15,7 +17,8 @@ class MainActivity : ComponentActivity() {
         setContent {
             App(
                 darkTheme = isSystemInDarkTheme(),
-                dynamicColor = true
+                dynamicColor = true,
+                appModule = AppModule(LocalContext.current.applicationContext)
             )
         }
     }
@@ -26,6 +29,7 @@ class MainActivity : ComponentActivity() {
 fun AppAndroidPreview() {
     App(
         darkTheme = isSystemInDarkTheme(),
-        dynamicColor = true
+        dynamicColor = true,
+        appModule = AppModule(LocalContext.current.applicationContext)
     )
 }

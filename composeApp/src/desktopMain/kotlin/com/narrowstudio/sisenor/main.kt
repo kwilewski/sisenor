@@ -2,14 +2,15 @@ package com.narrowstudio.sisenor
 
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
-
+import com.narrowstudio.sisenor.di.AppModule
 
 
 fun main() = application {
     Window(onCloseRequest = ::exitApplication, title = "Si senor") {
         App(
             darkTheme = false,
-            dynamicColor = false
+            dynamicColor = false,
+            appModule = AppModule()
         )
     }
 }

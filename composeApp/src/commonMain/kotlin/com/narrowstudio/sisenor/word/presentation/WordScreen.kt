@@ -32,9 +32,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.ViewModel
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
+import com.narrowstudio.sisenor.koinViewModel
 import com.narrowstudio.sisenor.screen.TopBar
+import dev.icerock.moko.mvvm.compose.getViewModel
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
@@ -48,6 +51,9 @@ class WordScreen : Screen {
     @Composable
     override fun Content() {
         val navigator = LocalNavigator.current
+        
+        val viewModel = koinViewModel<WordViewModel>()
+
         Scaffold(
             topBar = {
                 TopBar(

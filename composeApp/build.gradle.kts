@@ -51,6 +51,7 @@ kotlin {
 
                 implementation(libs.coroutines.extensions)
 
+
                 implementation(libs.voyager.navigator)
                 implementation(libs.voyager.screenmodel)
                 implementation(libs.voyager.bottom.sheet.navigator)
@@ -73,7 +74,11 @@ kotlin {
             }
         }
 
-        val desktopMain by getting
+        val desktopMain by getting {
+            dependencies {
+                implementation(libs.sqldelight.desktop)
+            }
+        }
 
         val iosX64Main by getting
         val iosArm64Main by getting
@@ -81,6 +86,7 @@ kotlin {
         val iosMain by creating {
             dependencies {
                 implementation ("app.cash.sqldelight:native-driver:2.0.1")
+                implementation(libs.sqldelight.ios)
             }
             dependsOn(commonMain)
             iosX64Main.dependsOn(this)
@@ -96,6 +102,7 @@ kotlin {
             implementation ("app.cash.sqldelight:android-driver:2.0.1")
             implementation(libs.koin.android)
             implementation(libs.koin.androidx.compose)
+            implementation(libs.sqldelight.android)
         }
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)
@@ -151,6 +158,7 @@ sqldelight{
 dependencies {
     implementation("androidx.core:core:1.12.0")
     implementation(libs.androidx.material3.android)
+    implementation(libs.androidx.room.common)
     commonMainApi("dev.icerock.moko:mvvm-core:0.16.1")
     commonMainApi("dev.icerock.moko:mvvm-compose:0.16.1")
     commonMainApi("dev.icerock.moko:mvvm-flow:0.16.1")
