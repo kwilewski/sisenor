@@ -49,8 +49,6 @@ kotlin {
                 implementation(libs.mvvm.flow)
                 implementation(libs.mvvm.flow.compose)
 
-                implementation(libs.coroutines.extensions)
-
 
                 implementation(libs.voyager.navigator)
                 implementation(libs.voyager.screenmodel)
@@ -77,7 +75,6 @@ kotlin {
         val desktopMain by getting {
             dependencies {
                 implementation(libs.sqldelight.desktop)
-                api(libs.koin.core)
             }
         }
 
