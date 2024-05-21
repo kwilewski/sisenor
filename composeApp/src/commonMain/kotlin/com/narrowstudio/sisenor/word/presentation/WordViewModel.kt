@@ -2,7 +2,6 @@ package com.narrowstudio.sisenor.word.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.narrowstudio.sisenor.word.domain.Word
 import com.narrowstudio.sisenor.word.domain.WordDataSource
 import com.narrowstudio.sisenor.word.domain.WordsManager
 import kotlinx.coroutines.CoroutineScope
@@ -11,7 +10,6 @@ import kotlinx.coroutines.IO
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch

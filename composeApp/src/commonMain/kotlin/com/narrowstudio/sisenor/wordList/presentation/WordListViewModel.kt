@@ -1,17 +1,17 @@
 package com.narrowstudio.sisenor.wordList.presentation
 
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
+
+import androidx.lifecycle.ViewModel
+import com.narrowstudio.sisenor.word.domain.WordDataSource
 import com.narrowstudio.sisenor.word.domain.WordsManager
 import com.narrowstudio.sisenor.wordList.domain.CONST_WORD_LIST_RANGE_SECTIONS
-import com.narrowstudio.sisenor.wordList.domain.WordList
-import dev.icerock.moko.mvvm.viewmodel.ViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlin.math.roundToInt
 
-class WordListViewModel: ViewModel() {
+class WordListViewModel(
+    private val wordDataSource: WordDataSource
+): ViewModel() {
     private val _state = MutableStateFlow(
         WordListState(
     )
@@ -38,14 +38,15 @@ class WordListViewModel: ViewModel() {
     private fun processRangeChanged(){
         _selectedBottomRangeProcessed.value = CONST_WORD_LIST_RANGE_SECTIONS[bottomRange.roundToInt()] + 1
         _selectedTopRangeProcessed.value = CONST_WORD_LIST_RANGE_SECTIONS[topRange.roundToInt()]
+        sendWordListRange()
     }
 
-//    private fun sendWordListRange(){
-//        WordsManager.setWordsRange(
-//            bottom = _selectedBottomRangeProcessed.value,
-//            top = _selectedTopRangeProcessed.value
-//        )
-//    }
+    private fun sendWordListRange(){
+        WordsManager(wordDataSource).setWordsRange(
+            bottom = _selectedBottomRangeProcessed.value,
+            top = _selectedTopRangeProcessed.value
+        )
+    }
 
 
 

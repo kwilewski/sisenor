@@ -38,6 +38,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
+import com.narrowstudio.sisenor.koinViewModel
 import com.narrowstudio.sisenor.screen.TopBar
 import com.narrowstudio.sisenor.word.presentation.WordScreen
 import com.narrowstudio.sisenor.wordList.presentation.WordListViewModel
@@ -59,12 +60,7 @@ class WordListSelectionScreen : Screen {
     @Composable
     override fun Content() {
         val navigator = LocalNavigator.current
-        val viewModel = getViewModel(
-            key = "word-list-screen",
-            factory = viewModelFactory {
-                WordListViewModel()
-            }
-        )
+        val viewModel = koinViewModel<WordListViewModel>()
         val state by viewModel.state.collectAsState()
         val selectedBottomRange by viewModel.selectedBottomRangeProcessed.collectAsState()
         val selectedTopRange by viewModel.selectedTopRangeProcessed.collectAsState()
