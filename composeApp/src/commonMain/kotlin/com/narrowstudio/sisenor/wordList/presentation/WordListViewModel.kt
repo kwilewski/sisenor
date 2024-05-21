@@ -40,12 +40,12 @@ class WordListViewModel: ViewModel() {
         _selectedTopRangeProcessed.value = CONST_WORD_LIST_RANGE_SECTIONS[topRange.roundToInt()]
     }
 
-    private fun sendWordListRange(){
-        WordsManager.setWordsRange(
-            bottom = _selectedBottomRangeProcessed.value,
-            top = _selectedTopRangeProcessed.value
-        )
-    }
+//    private fun sendWordListRange(){
+//        WordsManager.setWordsRange(
+//            bottom = _selectedBottomRangeProcessed.value,
+//            top = _selectedTopRangeProcessed.value
+//        )
+//    }
 
 
 

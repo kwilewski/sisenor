@@ -5,5 +5,5 @@ sealed interface WordEvent {
     class onPreviousClick(): WordEvent
     class onNextClick(): WordEvent
     class onMarkedAsLearnedClick(): WordEvent
-    class onOpenInFloatingWindow()
+    class onOpenInFloatingWindowClick(): WordEvent
 }

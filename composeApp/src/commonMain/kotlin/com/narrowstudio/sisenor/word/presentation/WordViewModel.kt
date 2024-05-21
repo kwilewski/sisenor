@@ -30,7 +30,7 @@ class WordViewModel(
         CoroutineScope(Dispatchers.IO).launch {
             state = combine(
                 _state,
-                wordDataSource.getRangeWords(WordsManager.bottomRange.toLong(), WordsManager.topRange.toLong())
+                WordsManager(wordDataSource).getWordList()
             ){ state, words ->
                 state.copy(
                     words = words
@@ -45,6 +45,8 @@ class WordViewModel(
             is WordEvent.onNextClick -> TODO()
             is WordEvent.onPreviousClick -> TODO()
             is WordEvent.onStartClick -> TODO()
+            is WordEvent.onMarkedAsLearnedClick -> TODO()
+            is WordEvent.onOpenInFloatingWindowClick -> TODO()
         }
     }
 
