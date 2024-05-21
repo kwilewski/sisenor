@@ -35,6 +35,7 @@ class WordViewModel(
                 )
             }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000L), WordState())
         }
+        println(WordsManager(wordDataSource).getWordsRange())
     }
 
 

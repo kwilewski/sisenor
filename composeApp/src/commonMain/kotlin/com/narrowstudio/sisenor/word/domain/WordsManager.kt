@@ -21,6 +21,9 @@ class WordsManager(
         bottomRange = bottom
         topRange = top
     }
+    fun getWordsRange(): Pair<Int, Int> {
+        return Pair(bottomRange, topRange)
+    }
 
     fun getWordList(): Flow<List<Word>> {
         CoroutineScope(Dispatchers.IO).launch {
