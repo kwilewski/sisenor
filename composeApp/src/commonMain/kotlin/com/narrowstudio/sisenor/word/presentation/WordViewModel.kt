@@ -5,6 +5,9 @@ import androidx.lifecycle.viewModelScope
 import com.narrowstudio.sisenor.word.domain.Word
 import com.narrowstudio.sisenor.word.domain.WordDataSource
 import com.narrowstudio.sisenor.word.domain.WordsManager
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.IO
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -24,7 +27,7 @@ class WordViewModel(
 
 
     init {
-        viewModelScope.launch {
+        CoroutineScope(Dispatchers.IO).launch {
             state = combine(
                 _state,
                 wordDataSource.getRangeWords(WordsManager.bottomRange.toLong(), WordsManager.topRange.toLong())
@@ -33,7 +36,6 @@ class WordViewModel(
                     words = words
                 )
             }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000L), WordState())
-            println(state.toString())
         }
     }
 
