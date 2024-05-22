@@ -28,7 +28,7 @@ class WordViewModel(
         CoroutineScope(Dispatchers.IO).launch {
             state = combine(
                 _state,
-                WordsManager(wordDataSource).getWordList()
+                WordsManager(wordDataSource).getWordListFromDB()
             ){ state, words ->
                 state.copy(
                     words = words
