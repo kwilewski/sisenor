@@ -10,7 +10,8 @@ import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.flatMapConcat
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.launch
-import org.jetbrains.skiko.currentNanoTime
+import kotlinx.datetime.Clock
+import kotlinx.datetime.toLocalDateTime
 import kotlin.random.Random
 
 class WordsManager(
@@ -43,7 +44,7 @@ class WordsManager(
         CoroutineScope(Dispatchers.IO).launch {
             wordListAsFlow = wordDataSource.getRangeWords(bottomRange.toLong(), topRange.toLong())
             wordList = wordListAsFlow.flatMapConcat { it.asFlow() }.toList()
-            wordList.shuffled(Random(currentNanoTime()))
+            wordList.shuffled(Random(Clock.System.now().toEpochMilliseconds()))
         }
     }
 
