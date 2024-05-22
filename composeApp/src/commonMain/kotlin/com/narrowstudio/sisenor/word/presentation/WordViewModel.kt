@@ -12,6 +12,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class WordViewModel(
@@ -28,7 +29,7 @@ class WordViewModel(
         CoroutineScope(Dispatchers.IO).launch {
             state = combine(
                 _state,
-                WordsManager(wordDataSource).getWordListFromDB()
+                WordsManager(wordDataSource).getWordsAsFlow()
             ){ state, words ->
                 state.copy(
                     words = words
@@ -41,8 +42,16 @@ class WordViewModel(
 
     fun onEvent(event: WordEvent) {
         when(event) {
-            is WordEvent.onNextClick -> TODO()
-            is WordEvent.onPreviousClick -> TODO()
+            is WordEvent.onNextClick -> {
+                _state.update { it.copy(
+                    currentWord = WordsManager(wordDataSource).getNextWord()
+                ) }
+            }
+            is WordEvent.onPreviousClick -> {
+                _state.update { it.copy(
+                    currentWord = WordsManager(wordDataSource).getPreviousWord()
+                ) }
+            }
             is WordEvent.onStartClick -> TODO()
             is WordEvent.onMarkedAsLearnedClick -> TODO()
             is WordEvent.onOpenInFloatingWindowClick -> TODO()

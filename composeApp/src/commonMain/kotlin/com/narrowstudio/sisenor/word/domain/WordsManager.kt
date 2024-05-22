@@ -2,6 +2,7 @@ package com.narrowstudio.sisenor.word.domain
 
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.IO
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.asFlow
@@ -37,6 +38,7 @@ class WordsManager(
         return Pair(bottomRange, topRange)
     }
 
+    @OptIn(ExperimentalCoroutinesApi::class)
     fun getWordListFromDB() {
         CoroutineScope(Dispatchers.IO).launch {
             wordListAsFlow = wordDataSource.getRangeWords(bottomRange.toLong(), topRange.toLong())
@@ -60,7 +62,6 @@ class WordsManager(
     }
 
 
-
     private fun setPreviousIndex() {
         if (currentWordIndex > 0) currentWordIndex--
         else currentWordIndex = maxWordIndex
@@ -69,6 +70,10 @@ class WordsManager(
     private fun setNextIndex() {
         if (currentWordIndex < maxWordIndex) currentWordIndex++
         else currentWordIndex = 0
+    }
+
+    fun getWordsAsFlow(): Flow<List<Word>> {
+        return wordListAsFlow
     }
 
 
