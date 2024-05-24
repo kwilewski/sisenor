@@ -7,16 +7,16 @@ CREATE TABLE wordEntity (
     audioPath TEXT
 );
 
-insert:
+insertWord:
 INSERT OR REPLACE INTO wordEntity(spanishWord, englishWord, isSimilar, isLearned, audioPath) VALUES(?,?,?,?,?);
 
-update:
+updateWord:
 INSERT OR REPLACE INTO wordEntity(id, spanishWord, englishWord, isSimilar, isLearned, audioPath) VALUES(?,?,?,?,?,?);
 
 getIndex:
 SELECT last_insert_rowid();
 
-delete:
+deleteWord:
 DELETE FROM wordEntity WHERE id = :id;
 
 getWords:

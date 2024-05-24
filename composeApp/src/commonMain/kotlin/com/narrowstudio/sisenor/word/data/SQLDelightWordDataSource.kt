@@ -52,5 +52,14 @@ class SQLDelightWordDataSource(
             }
     }
 
+    override suspend fun insertWord(jsonString: String) {
+        val wordList = parseJson(jsonString)
+        for (word in wordList) {
+            val similar: Long = if (word.isSimilar) 1 else 0
+            val learned: Long = if (word.isLearned == true) 1 else 0
+            queries.updateWord(word.id, word.spanishWord, word.englishWord, similar, learned, word.audioBytes.toString())
+        }
+    }
+
 
 }
