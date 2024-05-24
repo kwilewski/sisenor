@@ -63,6 +63,7 @@ kotlin {
                 implementation(libs.lifecycle.viewmodel)
                 implementation(libs.navigation.compose)
 
+                implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.3")
 
 
             }
