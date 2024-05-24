@@ -27,6 +27,8 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
@@ -54,6 +56,8 @@ class WordScreen : Screen {
         
         val viewModel = koinViewModel<WordViewModel>()
 
+        val state by viewModel.state.collectAsState()
+
         Scaffold(
             topBar = {
                 TopBar(
@@ -74,6 +78,7 @@ class WordScreen : Screen {
             ) {
                 Column {
                     WordDisplayBox(
+                        state = state,
                         spanishWord = "spanish ",
                         englishWord = "english",
                         modifier = Modifier.fillMaxWidth()
@@ -85,10 +90,12 @@ class WordScreen : Screen {
                             .height(20.dp)
                     )
                     ControlButtons(
+                        state = state,
                         modifier = Modifier
                             .fillMaxWidth()
                             .fillMaxHeight(.5f)
-                            .padding(16.dp)
+                            .padding(16.dp),
+                        onEvent = viewModel::onEvent
                     )
 
                 }
@@ -101,6 +108,7 @@ class WordScreen : Screen {
 @Preview
 @Composable
 fun WordDisplayBox(
+    state: WordState,
     spanishWord: String,
     englishWord: String,
     modifier: Modifier = Modifier
@@ -111,25 +119,29 @@ fun WordDisplayBox(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
-            Text(
-                text = spanishWord,
-                modifier = Modifier.fillMaxWidth(.8f),
-                textAlign = TextAlign.Center,
-                fontSize = 40.sp,
-                lineHeight = 40.sp,
-                color = MaterialTheme.colorScheme.primary,
-            )
+            state.currentWord?.spanishWord?.let {
+                Text(
+                    text = it,
+                    modifier = Modifier.fillMaxWidth(.8f),
+                    textAlign = TextAlign.Center,
+                    fontSize = 40.sp,
+                    lineHeight = 40.sp,
+                    color = MaterialTheme.colorScheme.primary,
+                )
+            }
             Spacer(
                 modifier = Modifier.size(20.dp)
             )
-            Text(
-                text = englishWord,
-                modifier = Modifier.fillMaxWidth(.8f),
-                textAlign = TextAlign.Center,
-                fontSize = 40.sp,
-                lineHeight = 40.sp,
-                color = MaterialTheme.colorScheme.onPrimaryContainer,
-            )
+            state.currentWord?.englishWord?.let {
+                Text(
+                    text = it,
+                    modifier = Modifier.fillMaxWidth(.8f),
+                    textAlign = TextAlign.Center,
+                    fontSize = 40.sp,
+                    lineHeight = 40.sp,
+                    color = MaterialTheme.colorScheme.onPrimaryContainer,
+                )
+            }
         }
     }
 }
@@ -137,7 +149,9 @@ fun WordDisplayBox(
 @Preview
 @Composable
 fun ControlButtons(
-    modifier: Modifier = Modifier
+    state: WordState,
+    modifier: Modifier = Modifier,
+    onEvent: (WordEvent) -> Unit
 ) {
     Row(
         modifier = modifier,
@@ -176,7 +190,7 @@ fun ControlButtons(
         }
         Button(
             onClick = {
-                // TODO
+                onEvent(WordEvent.onNextClick())
             },
             modifier = Modifier.height(70.dp)
                 .width(70.dp),

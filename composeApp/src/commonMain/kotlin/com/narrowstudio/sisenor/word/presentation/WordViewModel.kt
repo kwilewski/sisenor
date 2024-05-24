@@ -21,22 +21,30 @@ class WordViewModel(
 
     private val _state = MutableStateFlow(WordState())
 
-    lateinit var state : Flow<WordState>
+    var state = combine(
+        _state,
+        WordsManager(wordDataSource).getWordsAsFlow()
+    ){ state, words ->
+        state.copy(
+            words = words,
+            currentWord = words.first()
+        )
+    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000L), WordState())
 
 
 
     init {
-        CoroutineScope(Dispatchers.IO).launch {
-            state = combine(
-                _state,
-                WordsManager(wordDataSource).getWordsAsFlow()
-            ){ state, words ->
-                state.copy(
-                    words = words
-                )
-            }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000L), WordState())
-        }
-        println(WordsManager(wordDataSource).getWordsRange())
+//        CoroutineScope(Dispatchers.IO).launch {
+//            state = combine(
+//                _state,
+//                WordsManager(wordDataSource).getWordsAsFlow()
+//            ){ state, words ->
+//                state.copy(
+//                    words = words
+//                )
+//            }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000L), WordState())
+//        }
+        WordsManager(wordDataSource).getWordListFromDB()
     }
 
 

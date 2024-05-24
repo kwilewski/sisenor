@@ -39,6 +39,7 @@ class SQLDelightWordDataSource(
             }
     }
 
+
     override suspend fun getSimilarWords(): Flow<List<Word>> {
         return queries
             .getSimilarWords()

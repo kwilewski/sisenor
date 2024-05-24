@@ -8,6 +8,8 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.flatMapConcat
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.take
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.launch
 import kotlinx.datetime.Clock
@@ -41,10 +43,16 @@ class WordsManager(
 
     @OptIn(ExperimentalCoroutinesApi::class)
     fun getWordListFromDB() {
+        println("Starting getWordListFromDB from ${bottomRange.toLong()} to ${topRange.toLong()}")
         CoroutineScope(Dispatchers.IO).launch {
+            println("Launching coroutine")
             wordListAsFlow = wordDataSource.getRangeWords(bottomRange.toLong(), topRange.toLong())
-            wordList = wordListAsFlow.flatMapConcat { it.asFlow() }.toList()
+            println("Flow created")
+            wordList = wordListAsFlow.take(1).toList().flatten()
+            println("flattened. Size of wordList: ${wordList.size}")
             wordList.shuffled(Random(Clock.System.now().toEpochMilliseconds()))
+            println("shuffled")
+            println("Size of wordList: ${wordList.size}")
         }
     }
 
@@ -53,15 +61,21 @@ class WordsManager(
     }
 
     fun getPreviousWord(): Word {
+        getWordsIfEmpty()
         setPreviousIndex()
         return wordList[currentWordIndex]
     }
 
-    fun getNextWord(): Word {
+    fun getNextWord(): Word? {
+        getWordsIfEmpty()
         setNextIndex()
-        return wordList[currentWordIndex]
+//        return wordList[currentWordIndex]
+        return null
     }
 
+    private fun getWordsIfEmpty(){
+        if (wordList.isEmpty()) getWordListFromDB()
+    }
 
     private fun setPreviousIndex() {
         if (currentWordIndex > 0) currentWordIndex--
