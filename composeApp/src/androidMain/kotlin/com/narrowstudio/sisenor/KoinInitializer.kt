@@ -2,6 +2,7 @@ package com.narrowstudio.sisenor
 
 import android.content.Context
 import com.narrowstudio.sisenor.di.AppModule
+import com.narrowstudio.sisenor.di.androidModule
 import com.narrowstudio.sisenor.di.dataSourceModule
 import com.narrowstudio.sisenor.word.domain.WordDataSource
 import org.koin.android.ext.koin.androidContext
@@ -17,7 +18,7 @@ actual class KoinInitializer(
         startKoin {
             androidContext(context)
             androidLogger()
-            modules(viewModelModule, dataSourceModule)
+            modules(viewModelModule, dataSourceModule, androidModule)
         }
     }
 

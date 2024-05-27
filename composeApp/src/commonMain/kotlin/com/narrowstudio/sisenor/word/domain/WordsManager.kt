@@ -1,5 +1,7 @@
 package com.narrowstudio.sisenor.word.domain
 
+import com.narrowstudio.sisenor.core.data.JSONHandler
+import com.narrowstudio.sisenor.word.data.parseJson
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -14,11 +16,13 @@ import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.launch
 import kotlinx.datetime.Clock
 import kotlinx.datetime.toLocalDateTime
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
 import kotlin.random.Random
 
 class WordsManager(
     private val wordDataSource: WordDataSource
-) {
+): KoinComponent {
     companion object {
         var bottomRange: Int = 1
         var topRange: Int = 9489
@@ -39,6 +43,15 @@ class WordsManager(
 
     fun getWordsRange(): Pair<Int, Int> {
         return Pair(bottomRange, topRange)
+    }
+
+    suspend fun insertDataFromJSONFile(){
+        val jsonHandler: JSONHandler by inject()
+        val jsonString = jsonHandler.readJSONFile("files/json/words.json")
+        val dataList = parseJson(jsonString)
+        for (data in dataList) {
+            wordDataSource.insertWord(data)
+        }
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)

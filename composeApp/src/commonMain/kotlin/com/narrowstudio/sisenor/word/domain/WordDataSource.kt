@@ -7,5 +7,5 @@ interface WordDataSource {
     suspend fun getRangeWords(startIndex: Long, endIndex: Long): Flow<List<Word>>
     suspend fun getSimilarWords(): Flow<List<Word>>
 
-    suspend fun insertWord(jsonString: String)
+    suspend fun insertWord(word: Word)
 }
