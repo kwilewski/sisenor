@@ -9,8 +9,10 @@ data class Word(
     val id: Long,
     val spanishWord: String,
     val englishWord: String,
+    @Serializable(with = BooleanAsIntSerializer::class)
     val isSimilar: Boolean,
+    @Serializable(with = NullableBooleanAsIntSerializer::class)
     val isLearned: Boolean?,
-    val audioBytes: ByteArray?
+    val audioPath: String?
 )
 

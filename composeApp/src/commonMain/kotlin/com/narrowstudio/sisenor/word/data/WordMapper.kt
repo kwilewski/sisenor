@@ -12,7 +12,7 @@ fun WordEntity.toWord(): Word {
         englishWord = englishWord,
         isSimilar = isSimilar != 0L,
         isLearned = null,
-        audioBytes = null //TODO: get audio
+        audioPath = null //TODO: get audio
     )
 }
 

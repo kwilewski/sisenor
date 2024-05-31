@@ -5,6 +5,7 @@ plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsCompose)
     alias(libs.plugins.sqlDelight)
+    alias(libs.plugins.serialization)
 }
 
 kotlin {
@@ -63,7 +64,7 @@ kotlin {
                 implementation(libs.lifecycle.viewmodel)
                 implementation(libs.navigation.compose)
 
-                implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.3")
+                implementation(libs.kotlinx.serialization.json)
 
 
             }

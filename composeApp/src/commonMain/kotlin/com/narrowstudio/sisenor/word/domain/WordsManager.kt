@@ -16,8 +16,11 @@ import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.launch
 import kotlinx.datetime.Clock
 import kotlinx.datetime.toLocalDateTime
+import kotlinx.serialization.SerializationException
+import kotlinx.serialization.json.Json
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
+import org.koin.core.logger.Logger
 import kotlin.random.Random
 
 class WordsManager(
@@ -48,9 +51,16 @@ class WordsManager(
     suspend fun insertDataFromJSONFile(){
         val jsonHandler: JSONHandler by inject()
         val jsonString = jsonHandler.readJSONFile("files/json/words.json")
-        val dataList = parseJson(jsonString)
-        for (data in dataList) {
-            wordDataSource.insertWord(data)
+        val json = Json { ignoreUnknownKeys = true }
+        val words = Json.decodeFromString<Word>(jsonString)
+        var wordList: List<Word> = emptyList()
+        try {
+            wordList = json.decodeFromString(jsonString)
+        }catch (E: RuntimeException){
+            println("Error: ${E.message}")
+        }
+        for (word in wordList) {
+            wordDataSource.insertWord(word)
         }
     }
 
