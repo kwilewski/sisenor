@@ -11,7 +11,7 @@ fun WordEntity.toWord(): Word {
         spanishWord = spanishWord,
         englishWord = englishWord,
         isSimilar = isSimilar != 0L,
-        isLearned = null,
+        isLearned = false,
         audioPath = null //TODO: get audio
     )
 }

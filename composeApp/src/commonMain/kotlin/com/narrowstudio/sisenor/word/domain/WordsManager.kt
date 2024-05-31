@@ -6,6 +6,8 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.IO
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.emptyFlow
@@ -50,16 +52,22 @@ class WordsManager(
 
     suspend fun insertDataFromJSONFile(){
         val jsonHandler: JSONHandler by inject()
-        val jsonString = jsonHandler.readJSONFile("files/json/words.json")
-        val json = Json { ignoreUnknownKeys = true }
-        var wordList: List<Word> = emptyList()
-        try {
-            wordList = json.decodeFromString(jsonString)
-        }catch (E: RuntimeException){
-            println("Error: ${E.message}")
-        }
-        for (word in wordList) {
-            wordDataSource.insertWord(word)
+        CoroutineScope(Dispatchers.IO).launch {
+            val jsonString = jsonHandler.readJSONFile("words.json")
+            val json = Json {
+                ignoreUnknownKeys = true
+                isLenient = true
+                encodeDefaults = true
+            }
+            var wordList: List<Word> = emptyList()
+            try {
+                wordList = json.decodeFromString(jsonString)
+            }catch (E: RuntimeException){
+                println("Error: ${E.message}")
+            }
+            for (word in wordList) {
+                wordDataSource.insertWord(word)
+            }
         }
     }
 

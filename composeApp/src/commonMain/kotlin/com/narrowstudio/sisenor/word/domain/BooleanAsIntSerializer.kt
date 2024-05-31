@@ -23,12 +23,11 @@ object NullableBooleanAsIntSerializer : KSerializer<Boolean?> {
     override val descriptor: SerialDescriptor = PrimitiveSerialDescriptor("NullableBooleanAsInt", PrimitiveKind.INT)
 
     override fun serialize(encoder: Encoder, value: Boolean?) {
-        encoder.encodeInt(if (value == true) 1 else 0)
+        encoder.encodeInt(value?.let { if (it) 1 else 0 } ?: 0)
     }
 
     override fun deserialize(decoder: Decoder): Boolean? {
-        val intValue = decoder.decodeInt()
-        return when (intValue) {
+        return when (val intValue = decoder.decodeInt()) {
             1 -> true
             0 -> false
             else -> null
