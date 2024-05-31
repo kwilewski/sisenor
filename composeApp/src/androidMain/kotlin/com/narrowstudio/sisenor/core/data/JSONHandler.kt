@@ -16,7 +16,7 @@ actual class JSONHandler (
             //return context.assets.open(filename).bufferedReader().use { it.readText() }
         } catch (e: FileNotFoundException) {
             Log.d("JSONHandler", "File not found: $filename")
-            return "{\"id\":121,\"spanishWord\":\"de\",\"englishWord\":\"of, from\",\"isSimilar\":0,\"isLearned\":0,\"audioPath\":\"audio\"}"
+            return "[{\"id\":121,\"spanishWord\":\"de\",\"englishWord\":\"of, from\",\"isSimilar\":0,\"isLearned\":0,\"audioPath\":\"audio\"}]"
         }
     }
 }

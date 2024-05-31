@@ -52,7 +52,6 @@ class WordsManager(
         val jsonHandler: JSONHandler by inject()
         val jsonString = jsonHandler.readJSONFile("files/json/words.json")
         val json = Json { ignoreUnknownKeys = true }
-        val words = Json.decodeFromString<Word>(jsonString)
         var wordList: List<Word> = emptyList()
         try {
             wordList = json.decodeFromString(jsonString)
