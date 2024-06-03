@@ -39,6 +39,7 @@ import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import com.narrowstudio.sisenor.koinViewModel
 import com.narrowstudio.sisenor.screen.TopBar
+import com.narrowstudio.sisenor.word.domain.Word
 import dev.icerock.moko.mvvm.compose.getViewModel
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.stringResource
@@ -57,6 +58,8 @@ class WordScreen : Screen {
         val viewModel = koinViewModel<WordViewModel>()
 
         val state by viewModel.state.collectAsState()
+
+        val wordState = viewModel.currentWordState
 
         Scaffold(
             topBar = {
@@ -78,8 +81,8 @@ class WordScreen : Screen {
             ) {
                 Column {
                     WordDisplayBox(
-                        state = state,
-                        spanishWord = "spanish ",
+                        word = wordState,
+                        spanishWord = "spanish",
                         englishWord = "english",
                         modifier = Modifier.fillMaxWidth()
                             .fillMaxHeight(0.6f)
@@ -108,7 +111,7 @@ class WordScreen : Screen {
 @Preview
 @Composable
 fun WordDisplayBox(
-    state: WordState,
+    word: Word,
     spanishWord: String,
     englishWord: String,
     modifier: Modifier = Modifier
@@ -119,29 +122,25 @@ fun WordDisplayBox(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
-            state.currentWord?.spanishWord?.let {
-                Text(
-                    text = it,
-                    modifier = Modifier.fillMaxWidth(.8f),
-                    textAlign = TextAlign.Center,
-                    fontSize = 40.sp,
-                    lineHeight = 40.sp,
-                    color = MaterialTheme.colorScheme.primary,
-                )
-            }
+                    Text(
+                        text = word.spanishWord?: spanishWord,
+                        modifier = Modifier.fillMaxWidth(.8f),
+                        textAlign = TextAlign.Center,
+                        fontSize = 40.sp,
+                        lineHeight = 40.sp,
+                        color = MaterialTheme.colorScheme.primary,
+                    )
             Spacer(
                 modifier = Modifier.size(20.dp)
             )
-            state.currentWord?.englishWord?.let {
                 Text(
-                    text = it,
+                    text = word.englishWord?: englishWord,
                     modifier = Modifier.fillMaxWidth(.8f),
                     textAlign = TextAlign.Center,
                     fontSize = 40.sp,
                     lineHeight = 40.sp,
                     color = MaterialTheme.colorScheme.onPrimaryContainer,
                 )
-            }
         }
     }
 }
@@ -158,6 +157,7 @@ fun ControlButtons(
         horizontalArrangement = Arrangement.SpaceAround,
         verticalAlignment = Alignment.CenterVertically
     ) {
+        // previous button
         Button(
             onClick = {
                 // TODO
@@ -173,6 +173,8 @@ fun ControlButtons(
                 modifier = Modifier.size(50.dp)
             )
         }
+
+        // play button
         Button(
             onClick = {
                 // TODO
@@ -188,6 +190,8 @@ fun ControlButtons(
                 modifier = Modifier.size(70.dp)
             )
         }
+
+        // next button
         Button(
             onClick = {
                 onEvent(WordEvent.onNextClick())

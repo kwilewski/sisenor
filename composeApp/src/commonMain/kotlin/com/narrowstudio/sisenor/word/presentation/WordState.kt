@@ -5,5 +5,12 @@ import com.narrowstudio.sisenor.word.domain.WordsManager
 
 data class WordState(
     val words: List<Word> = emptyList(),
-    val currentWord: Word? = null
+    var currentWord: Word? = Word(
+        id = 3,
+        spanishWord = "puta",
+        englishWord = "madre",
+        isLearned = false,
+        isSimilar = false,
+        audioPath = null
+    )
 )

@@ -83,6 +83,7 @@ class WordsManager(
             wordList.shuffled(Random(Clock.System.now().toEpochMilliseconds()))
             println("shuffled")
             println("Size of wordList: ${wordList.size}")
+            setMaxIndex()
         }
     }
 
@@ -96,11 +97,15 @@ class WordsManager(
         return wordList[currentWordIndex]
     }
 
-    fun getNextWord(): Word? {
+    fun getNextWord(): Word {
         getWordsIfEmpty()
         setNextIndex()
-//        return wordList[currentWordIndex]
-        return null
+        println(wordList[currentWordIndex])
+        return wordList[currentWordIndex]
+    }
+
+    private fun setMaxIndex(){
+        maxWordIndex = wordList.size - 1
     }
 
     private fun getWordsIfEmpty(){
@@ -120,6 +125,7 @@ class WordsManager(
     fun getWordsAsFlow(): Flow<List<Word>> {
         return wordListAsFlow
     }
+
 
 
 }
