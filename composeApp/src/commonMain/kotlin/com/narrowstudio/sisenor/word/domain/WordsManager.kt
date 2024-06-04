@@ -80,7 +80,7 @@ class WordsManager(
             println("Flow created")
             wordList = wordListAsFlow.take(1).toList().flatten()
             println("flattened. Size of wordList: ${wordList.size}")
-            wordList.shuffled(Random(Clock.System.now().toEpochMilliseconds()))
+            wordList = wordList.shuffled(Random(Clock.System.now().toEpochMilliseconds()))
             println("shuffled")
             println("Size of wordList: ${wordList.size}")
             setMaxIndex()
@@ -94,6 +94,7 @@ class WordsManager(
     fun getPreviousWord(): Word {
         getWordsIfEmpty()
         setPreviousIndex()
+        println(wordList[currentWordIndex])
         return wordList[currentWordIndex]
     }
 
