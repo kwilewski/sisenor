@@ -27,21 +27,19 @@ class WordsManagerTimer (
 
     init {
         coroutineScope.launch {
-            handleRunning()
+            while (true) {
+                if (isRunning.value) {
+                    val elapsed = Clock.System.now().toEpochMilliseconds() - startTime
+                    if (elapsed >= triggerTime) {
+                        resetStartTime()
+                        _triggerFlow.value = Clock.System.now().toEpochMilliseconds()
+                    }
+                }
+                delay(100L)
+            }
         }
     }
 
-    private suspend fun handleRunning() {
-        if (isRunning.value) {
-            val elapsed = Clock.System.now().toEpochMilliseconds() - startTime
-            if (elapsed >= triggerTime) {
-                resetStartTime()
-                _triggerFlow.value = Clock.System.now().toEpochMilliseconds()
-            }
-        }
-        delay(100L)
-        handleRunning()
-    }
 
     fun start() {
         if (!isRunning.value) {
