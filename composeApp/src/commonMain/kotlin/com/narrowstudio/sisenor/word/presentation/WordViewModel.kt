@@ -78,7 +78,9 @@ class WordViewModel(
             is WordEvent.onPreviousClick -> {
                 WordsManager(wordDataSource).getPreviousWord()
             }
-            is WordEvent.onStartClick -> TODO()
+            is WordEvent.onStartClick -> {
+                wordsManager.onPlayPauseButtonClicked()
+            }
             is WordEvent.onMarkedAsLearnedClick -> TODO()
             is WordEvent.onOpenInFloatingWindowClick -> TODO()
         }

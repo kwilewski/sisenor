@@ -16,7 +16,7 @@ class WordsManagerTimer (
     private var triggerTime: Long = 5000L
 ) {
     private var startTime: Long = 0
-    private var isRunning: Boolean = false
+    var isRunning: Boolean = false
 
     private val _triggerFlow = MutableStateFlow(triggerTime)
     val triggerFlow = _triggerFlow.asStateFlow()
@@ -40,8 +40,7 @@ class WordsManagerTimer (
                 val elapsed = Clock.System.now().toEpochMilliseconds() - startTime
                 if (elapsed >= triggerTime) {
                     _triggerFlow.value = elapsed
-                    pause()
-                    return@launch
+                    startTime = Clock.System.now().toEpochMilliseconds()
                 }
                 delay(100L)
                 tick()

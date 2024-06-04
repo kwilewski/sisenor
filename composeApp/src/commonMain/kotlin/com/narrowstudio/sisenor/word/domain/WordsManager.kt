@@ -38,6 +38,11 @@ class WordsManager(
             isSimilar = false,
             audioPath = null
         ))
+
+        // timer
+        val timer = WordsManagerTimer(
+            triggerTime = 5000L
+        )
     }
 
     // setting range of words from listSelection
@@ -100,6 +105,27 @@ class WordsManager(
             // setting max index to avoid NullPointerException
             setMaxIndex()
             emitNewWordStateFlowValue()
+        }
+    }
+
+    fun onPlayPauseButtonClicked() {
+        if (timer.isRunning) {
+            timer.pause()
+            println("Timer paused")
+        } else {
+            timer.start()
+            println("Timer started")
+            handleTriggerFlow()
+        }
+    }
+
+    private fun handleTriggerFlow() {
+        CoroutineScope(Dispatchers.Default).launch {
+            println("Starting handleTriggerFlow")
+            timer.triggerFlow.collect {
+                println("Triggering")
+                getNextWord()
+            }
         }
     }
 

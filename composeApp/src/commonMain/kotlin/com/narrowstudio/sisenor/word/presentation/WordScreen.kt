@@ -187,7 +187,7 @@ fun ControlButtons(
         // play button
         Button(
             onClick = {
-                // TODO
+                onEvent(WordEvent.onStartClick())
             },
             modifier = Modifier.height(100.dp)
                 .width(100.dp),
