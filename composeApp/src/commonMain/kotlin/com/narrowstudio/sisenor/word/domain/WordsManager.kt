@@ -28,6 +28,8 @@ class WordsManager(
         var wordList: List<Word> = emptyList()
         var currentWordIndex = 0
         var maxWordIndex = 0
+
+        // actual word state to be collected
         val currentWordAsStateFlow = MutableStateFlow(Word(
             id = 0,
             spanishWord = " ",
@@ -38,6 +40,7 @@ class WordsManager(
         ))
     }
 
+    // setting range of words from listSelection
     fun setWordsRange(bottom: Int, top: Int) {
         if (bottomRange != bottom || topRange != top) {
             bottomRange = bottom
@@ -51,9 +54,11 @@ class WordsManager(
         return Pair(bottomRange, topRange)
     }
 
-    suspend fun insertDataFromJSONFile(){
+
+    fun insertDataFromJSONFile(){
         val jsonHandler: JSONHandler by inject()
         CoroutineScope(Dispatchers.IO).launch {
+            // reading string from JSON file
             val jsonString = jsonHandler.readJSONFile("words.json")
             val json = Json {
                 ignoreUnknownKeys = true
@@ -61,21 +66,25 @@ class WordsManager(
                 encodeDefaults = true
             }
             var wordList: List<Word> = emptyList()
+            // converting string to list of words
             try {
                 wordList = json.decodeFromString(jsonString)
-            }catch (E: RuntimeException){
-                println("Error: ${E.message}")
+            }catch (e: RuntimeException){
+                println("Error: ${e.message}")
             }
+            // inserting words into database
             for (word in wordList) {
                 wordDataSource.insertWord(word)
             }
         }
     }
 
+    // emitting new word whenever needed
     private fun emitNewWordStateFlowValue(){
         currentWordAsStateFlow.value = wordList[currentWordIndex]
     }
 
+    // loading words from database
     @OptIn(ExperimentalCoroutinesApi::class)
     fun getWordListFromDB() {
         println("Starting getWordListFromDB from ${bottomRange.toLong()} to ${topRange.toLong()}")
@@ -88,6 +97,7 @@ class WordsManager(
             wordList = wordList.shuffled(Random(Clock.System.now().toEpochMilliseconds()))
             println("shuffled")
             println("Size of wordList: ${wordList.size}")
+            // setting max index to avoid NullPointerException
             setMaxIndex()
             emitNewWordStateFlowValue()
         }
@@ -97,6 +107,7 @@ class WordsManager(
         return wordList[currentWordIndex]
     }
 
+    // setting previous word and emitting it in stateFlow
     fun getPreviousWord() {
         if (wordList.isEmpty()) {
             getWordsIfEmpty()
@@ -107,6 +118,7 @@ class WordsManager(
         }
     }
 
+    // setting next word and emitting it in stateFlow
     fun getNextWord() {
         if (wordList.isEmpty()) {
             getWordsIfEmpty()
@@ -123,6 +135,7 @@ class WordsManager(
         maxWordIndex = wordList.size - 1
     }
 
+    // loading words from database if list is empty
     private fun getWordsIfEmpty(){
         if (wordList.isEmpty()) getWordListFromDB()
     }
@@ -141,6 +154,7 @@ class WordsManager(
         return wordListAsFlow
     }
 
+    // returning flow of Word
     fun getCurrentWordAsFlow(): Flow<Word> {
         return currentWordAsStateFlow.asStateFlow()
     }
