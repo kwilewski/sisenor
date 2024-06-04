@@ -72,14 +72,9 @@ class WordViewModel(
         when(event) {
             is WordEvent.onNextClick -> {
                 currentWordState = WordsManager(wordDataSource).getNextWord()
-                _state.update { it.copy(
-                    currentWord = WordsManager(wordDataSource).getNextWord()
-                ) }
             }
             is WordEvent.onPreviousClick -> {
-                _state.update { it.copy(
-                    currentWord = WordsManager(wordDataSource).getPreviousWord()
-                ) }
+                currentWordState = WordsManager(wordDataSource).getPreviousWord()
             }
             is WordEvent.onStartClick -> TODO()
             is WordEvent.onMarkedAsLearnedClick -> TODO()

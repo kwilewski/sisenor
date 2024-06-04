@@ -93,7 +93,6 @@ class WordScreen : Screen {
                             .height(20.dp)
                     )
                     ControlButtons(
-                        state = state,
                         modifier = Modifier
                             .fillMaxWidth()
                             .fillMaxHeight(.5f)
@@ -148,7 +147,6 @@ fun WordDisplayBox(
 @Preview
 @Composable
 fun ControlButtons(
-    state: WordState,
     modifier: Modifier = Modifier,
     onEvent: (WordEvent) -> Unit
 ) {
@@ -160,7 +158,7 @@ fun ControlButtons(
         // previous button
         Button(
             onClick = {
-                // TODO
+                onEvent(WordEvent.onPreviousClick())
             },
             modifier = Modifier.height(70.dp)
                 .width(70.dp),

@@ -40,11 +40,8 @@ import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import com.narrowstudio.sisenor.koinViewModel
 import com.narrowstudio.sisenor.screen.TopBar
-import com.narrowstudio.sisenor.word.domain.WordsManager
 import com.narrowstudio.sisenor.word.presentation.WordScreen
 import com.narrowstudio.sisenor.wordList.presentation.WordListViewModel
-import dev.icerock.moko.mvvm.compose.getViewModel
-import dev.icerock.moko.mvvm.compose.viewModelFactory
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
