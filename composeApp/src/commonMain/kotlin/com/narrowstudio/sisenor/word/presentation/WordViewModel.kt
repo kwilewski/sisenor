@@ -1,5 +1,6 @@
 package com.narrowstudio.sisenor.word.presentation
 
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -26,10 +27,11 @@ class WordViewModel(
 ): ViewModel() {
 
     private val _state = MutableStateFlow(WordState())
+    private val wordsManager = WordsManager(wordDataSource)
 
     var state = combine(
         _state,
-        WordsManager(wordDataSource).getWordsAsFlow()
+        wordsManager.getWordsAsFlow()
     ){ state, words ->
         state.copy(
             words = words,
@@ -37,8 +39,11 @@ class WordViewModel(
         )
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000L), WordState())
 
+    var stateFromWM = wordsManager.getCurrentWordAsFlow()
+
+
     var currentWordState by mutableStateOf(Word(
-        id = 3,
+        id = 0,
         spanishWord = " ",
         englishWord = " ",
         isLearned = false,
@@ -50,20 +55,17 @@ class WordViewModel(
 
 
     init {
-//        CoroutineScope(Dispatchers.IO).launch {
-//            state = combine(
-//                _state,
-//                WordsManager(wordDataSource).getWordsAsFlow()
-//            ){ state, words ->
-//                state.copy(
-//                    words = words
-//                )
-//            }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000L), WordState())
-//        }
         WordsManager(wordDataSource).getWordListFromDB()
         viewModelScope.launch {
             delay(3000L)
             currentWordState = WordsManager(wordDataSource).getCurrentWord()
+        }
+        collectWordFlow()
+    }
+
+    private fun collectWordFlow(){
+        viewModelScope.launch {
+
         }
     }
 
@@ -71,10 +73,10 @@ class WordViewModel(
     fun onEvent(event: WordEvent) {
         when(event) {
             is WordEvent.onNextClick -> {
-                currentWordState = WordsManager(wordDataSource).getNextWord()
+                WordsManager(wordDataSource).getNextWord()
             }
             is WordEvent.onPreviousClick -> {
-                currentWordState = WordsManager(wordDataSource).getPreviousWord()
+                WordsManager(wordDataSource).getPreviousWord()
             }
             is WordEvent.onStartClick -> TODO()
             is WordEvent.onMarkedAsLearnedClick -> TODO()

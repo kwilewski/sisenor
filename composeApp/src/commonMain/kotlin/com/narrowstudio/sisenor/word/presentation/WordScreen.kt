@@ -29,6 +29,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
@@ -61,6 +62,17 @@ class WordScreen : Screen {
 
         val wordState = viewModel.currentWordState
 
+        val wordFromWM = viewModel.stateFromWM.collectAsState(
+            Word(
+                id = 0,
+                spanishWord = " gafd",
+                englishWord = " adfgh",
+                isLearned = false,
+                isSimilar = false,
+                audioPath = null
+    )
+        )
+
         Scaffold(
             topBar = {
                 TopBar(
@@ -81,7 +93,7 @@ class WordScreen : Screen {
             ) {
                 Column {
                     WordDisplayBox(
-                        word = wordState,
+                        word = wordFromWM.value,
                         spanishWord = "spanish",
                         englishWord = "english",
                         modifier = Modifier.fillMaxWidth()

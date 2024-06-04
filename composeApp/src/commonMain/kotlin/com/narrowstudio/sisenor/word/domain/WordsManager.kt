@@ -1,28 +1,21 @@
 package com.narrowstudio.sisenor.word.domain
 
 import com.narrowstudio.sisenor.core.data.JSONHandler
-import com.narrowstudio.sisenor.word.data.parseJson
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.IO
-import kotlinx.coroutines.MainScope
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.asFlow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.emptyFlow
-import kotlinx.coroutines.flow.flatMapConcat
-import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.take
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.launch
 import kotlinx.datetime.Clock
-import kotlinx.datetime.toLocalDateTime
-import kotlinx.serialization.SerializationException
 import kotlinx.serialization.json.Json
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
-import org.koin.core.logger.Logger
 import kotlin.random.Random
 
 class WordsManager(
@@ -35,6 +28,14 @@ class WordsManager(
         var wordList: List<Word> = emptyList()
         var currentWordIndex = 0
         var maxWordIndex = 0
+        val currentWordAsStateFlow = MutableStateFlow(Word(
+            id = 0,
+            spanishWord = " ",
+            englishWord = " ",
+            isLearned = false,
+            isSimilar = false,
+            audioPath = null
+        ))
     }
 
     fun setWordsRange(bottom: Int, top: Int) {
@@ -71,6 +72,10 @@ class WordsManager(
         }
     }
 
+    private fun emitNewWordStateFlowValue(){
+        currentWordAsStateFlow.value = wordList[currentWordIndex]
+    }
+
     @OptIn(ExperimentalCoroutinesApi::class)
     fun getWordListFromDB() {
         println("Starting getWordListFromDB from ${bottomRange.toLong()} to ${topRange.toLong()}")
@@ -84,6 +89,7 @@ class WordsManager(
             println("shuffled")
             println("Size of wordList: ${wordList.size}")
             setMaxIndex()
+            emitNewWordStateFlowValue()
         }
     }
 
@@ -91,19 +97,27 @@ class WordsManager(
         return wordList[currentWordIndex]
     }
 
-    fun getPreviousWord(): Word {
-        getWordsIfEmpty()
-        setPreviousIndex()
-        println(wordList[currentWordIndex])
-        return wordList[currentWordIndex]
+    fun getPreviousWord() {
+        if (wordList.isEmpty()) {
+            getWordsIfEmpty()
+        } else {
+            setPreviousIndex()
+            emitNewWordStateFlowValue()
+            println(wordList[currentWordIndex])
+        }
     }
 
-    fun getNextWord(): Word {
-        getWordsIfEmpty()
-        setNextIndex()
-        println(wordList[currentWordIndex])
-        return wordList[currentWordIndex]
+    fun getNextWord() {
+        if (wordList.isEmpty()) {
+            getWordsIfEmpty()
+        } else {
+            setNextIndex()
+            emitNewWordStateFlowValue()
+            println(wordList[currentWordIndex])
+        }
     }
+
+
 
     private fun setMaxIndex(){
         maxWordIndex = wordList.size - 1
@@ -125,6 +139,10 @@ class WordsManager(
 
     fun getWordsAsFlow(): Flow<List<Word>> {
         return wordListAsFlow
+    }
+
+    fun getCurrentWordAsFlow(): Flow<Word> {
+        return currentWordAsStateFlow.asStateFlow()
     }
 
 
