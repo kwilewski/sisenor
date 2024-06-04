@@ -39,7 +39,9 @@ class WordViewModel(
         )
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000L), WordState())
 
-    var stateFromWM = wordsManager.getCurrentWordAsFlow()
+    val stateFromWM = wordsManager.getCurrentWordAsFlow()
+
+    val timerState = wordsManager.getTimerState()
 
 
     var currentWordState by mutableStateOf(Word(
@@ -73,10 +75,10 @@ class WordViewModel(
     fun onEvent(event: WordEvent) {
         when(event) {
             is WordEvent.onNextClick -> {
-                WordsManager(wordDataSource).getNextWord()
+                wordsManager.getNextWord()
             }
             is WordEvent.onPreviousClick -> {
-                WordsManager(wordDataSource).getPreviousWord()
+                wordsManager.getPreviousWord()
             }
             is WordEvent.onStartClick -> {
                 wordsManager.onPlayPauseButtonClicked()

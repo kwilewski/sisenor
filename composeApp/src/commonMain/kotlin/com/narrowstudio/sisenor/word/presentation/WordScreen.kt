@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowForward
+import androidx.compose.material.icons.filled.Pause
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.filled.RoundedCorner
 import androidx.compose.material.icons.filled.SkipNext
@@ -70,8 +71,9 @@ class WordScreen : Screen {
                 isLearned = false,
                 isSimilar = false,
                 audioPath = null
-    )
+            )
         )
+        val timerState = viewModel.timerState.collectAsState(false)
 
         Scaffold(
             topBar = {
@@ -109,6 +111,7 @@ class WordScreen : Screen {
                             .fillMaxWidth()
                             .fillMaxHeight(.5f)
                             .padding(16.dp),
+                        isRunningState = timerState.value,
                         onEvent = viewModel::onEvent
                     )
 
@@ -160,6 +163,7 @@ fun WordDisplayBox(
 @Composable
 fun ControlButtons(
     modifier: Modifier = Modifier,
+    isRunningState: Boolean,
     onEvent: (WordEvent) -> Unit
 ) {
     Row(
@@ -193,12 +197,21 @@ fun ControlButtons(
                 .width(100.dp),
             shape = RoundedCornerShape(50),
         ) {
-            Icon(
-                Icons.Default.PlayArrow,
-                contentDescription = "Play",
-                tint = MaterialTheme.colorScheme.onPrimary,
-                modifier = Modifier.size(70.dp)
-            )
+            if (isRunningState) {
+                Icon(
+                    Icons.Default.Pause,
+                    contentDescription = "Paused",
+                    tint = MaterialTheme.colorScheme.onPrimary,
+                    modifier = Modifier.size(70.dp)
+                )
+            } else {
+                Icon(
+                    Icons.Default.PlayArrow,
+                    contentDescription = "Play",
+                    tint = MaterialTheme.colorScheme.onPrimary,
+                    modifier = Modifier.size(70.dp)
+                )
+            }
         }
 
         // next button

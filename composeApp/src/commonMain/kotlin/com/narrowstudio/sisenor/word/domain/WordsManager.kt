@@ -1,5 +1,6 @@
 package com.narrowstudio.sisenor.word.domain
 
+import androidx.compose.runtime.collectAsState
 import com.narrowstudio.sisenor.core.data.JSONHandler
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -43,6 +44,18 @@ class WordsManager(
         val timer = WordsManagerTimer(
             triggerTime = 5000L
         )
+        val timerState = timer.isRunning
+    }
+
+    init {
+        CoroutineScope(Dispatchers.Default).launch {
+            timer.triggerFlow.collect {
+                if (timer.isRunning.value) {
+                    println("Triggering")
+                    getNextWord()
+                }
+            }
+        }
     }
 
     // setting range of words from listSelection
@@ -109,25 +122,15 @@ class WordsManager(
     }
 
     fun onPlayPauseButtonClicked() {
-        if (timer.isRunning) {
+        if (timer.isRunning.value) {
             timer.pause()
             println("Timer paused")
         } else {
             timer.start()
             println("Timer started")
-            handleTriggerFlow()
         }
     }
 
-    private fun handleTriggerFlow() {
-        CoroutineScope(Dispatchers.Default).launch {
-            println("Starting handleTriggerFlow")
-            timer.triggerFlow.collect {
-                println("Triggering")
-                getNextWord()
-            }
-        }
-    }
 
     fun getCurrentWord(): Word {
         return wordList[currentWordIndex]
@@ -140,6 +143,7 @@ class WordsManager(
         } else {
             setPreviousIndex()
             emitNewWordStateFlowValue()
+            timer.resetStartTime()
             println(wordList[currentWordIndex])
         }
     }
@@ -151,6 +155,7 @@ class WordsManager(
         } else {
             setNextIndex()
             emitNewWordStateFlowValue()
+            timer.resetStartTime()
             println(wordList[currentWordIndex])
         }
     }
@@ -183,6 +188,10 @@ class WordsManager(
     // returning flow of Word
     fun getCurrentWordAsFlow(): Flow<Word> {
         return currentWordAsStateFlow.asStateFlow()
+    }
+
+    fun getTimerState(): Flow<Boolean> {
+        return timerState
     }
 
 

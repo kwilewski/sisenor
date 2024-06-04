@@ -5,6 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -16,35 +17,45 @@ class WordsManagerTimer (
     private var triggerTime: Long = 5000L
 ) {
     private var startTime: Long = 0
-    var isRunning: Boolean = false
+    private val _isRunning = MutableStateFlow(false)
+    val isRunning = _isRunning.asStateFlow()
 
     private val _triggerFlow = MutableStateFlow(triggerTime)
     val triggerFlow = _triggerFlow.asStateFlow()
 
+    private val coroutineScope = CoroutineScope(Dispatchers.Default)
+
+    init {
+        coroutineScope.launch {
+            handleRunning()
+        }
+    }
+
+    private suspend fun handleRunning() {
+        if (isRunning.value) {
+            val elapsed = Clock.System.now().toEpochMilliseconds() - startTime
+            if (elapsed >= triggerTime) {
+                resetStartTime()
+                _triggerFlow.value = Clock.System.now().toEpochMilliseconds()
+            }
+        }
+        delay(100L)
+        handleRunning()
+    }
 
     fun start() {
-        if (!isRunning) {
-            startTime = Clock.System.now().toEpochMilliseconds()
-            isRunning = true
-            tick()
+        if (!isRunning.value) {
+            resetStartTime()
+            _isRunning.value = true
         }
     }
 
     fun pause() {
-        isRunning = false
+        _isRunning.value = false
     }
 
-    private fun tick() {
-        if (isRunning) {
-            CoroutineScope(Dispatchers.Default).launch {
-                val elapsed = Clock.System.now().toEpochMilliseconds() - startTime
-                if (elapsed >= triggerTime) {
-                    _triggerFlow.value = elapsed
-                    startTime = Clock.System.now().toEpochMilliseconds()
-                }
-                delay(100L)
-                tick()
-            }
-        }
+    fun resetStartTime() {
+        startTime = Clock.System.now().toEpochMilliseconds()
     }
+
 }
