@@ -6,6 +6,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.IO
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -45,18 +46,27 @@ class WordsManager(
             triggerTime = 5000L
         )
         val timerState = timer.isRunning
-    }
 
-    init {
-        CoroutineScope(Dispatchers.Default).launch {
-            timer.triggerFlow.collect {
-                if (timer.isRunning.value) {
-                    println("Triggering")
-                    getNextWord()
+        lateinit var companionWwordDataSource: WordDataSource
+
+        init{
+            CoroutineScope(Dispatchers.Default).launch {
+                println("collecting coroutine launched")
+                timer.triggerFlow.collect {
+                    if (timer.isRunning.value) {
+                        println("Triggering")
+                        WordsManager(companionWwordDataSource).getNextWord()
+                    }
                 }
             }
         }
+
     }
+
+    init {
+        companionWwordDataSource = wordDataSource
+    }
+
 
     // setting range of words from listSelection
     fun setWordsRange(bottom: Int, top: Int) {
@@ -122,13 +132,7 @@ class WordsManager(
     }
 
     fun onPlayPauseButtonClicked() {
-        if (timer.isRunning.value) {
-            timer.pause()
-            println("Timer paused")
-        } else {
-            timer.start()
-            println("Timer started")
-        }
+        timer.handleStartPause()
     }
 
 
@@ -141,9 +145,9 @@ class WordsManager(
         if (wordList.isEmpty()) {
             getWordsIfEmpty()
         } else {
+            timer.resetStartTime()
             setPreviousIndex()
             emitNewWordStateFlowValue()
-            timer.resetStartTime()
             println(wordList[currentWordIndex])
         }
     }
@@ -153,9 +157,9 @@ class WordsManager(
         if (wordList.isEmpty()) {
             getWordsIfEmpty()
         } else {
+            timer.resetStartTime()
             setNextIndex()
             emitNewWordStateFlowValue()
-            timer.resetStartTime()
             println(wordList[currentWordIndex])
         }
     }

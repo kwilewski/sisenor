@@ -29,47 +29,18 @@ class WordViewModel(
     private val _state = MutableStateFlow(WordState())
     private val wordsManager = WordsManager(wordDataSource)
 
-    var state = combine(
-        _state,
-        wordsManager.getWordsAsFlow()
-    ){ state, words ->
-        state.copy(
-            words = words,
-            currentWord = words.first()
-        )
-    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000L), WordState())
 
     val stateFromWM = wordsManager.getCurrentWordAsFlow()
 
     val timerState = wordsManager.getTimerState()
 
 
-    var currentWordState by mutableStateOf(Word(
-        id = 0,
-        spanishWord = " ",
-        englishWord = " ",
-        isLearned = false,
-        isSimilar = false,
-        audioPath = null
-    ))
-        private set
-
 
 
     init {
-        WordsManager(wordDataSource).getWordListFromDB()
-        viewModelScope.launch {
-            delay(3000L)
-            currentWordState = WordsManager(wordDataSource).getCurrentWord()
-        }
-        collectWordFlow()
+        wordsManager.getWordListFromDB()
     }
 
-    private fun collectWordFlow(){
-        viewModelScope.launch {
-
-        }
-    }
 
 
     fun onEvent(event: WordEvent) {

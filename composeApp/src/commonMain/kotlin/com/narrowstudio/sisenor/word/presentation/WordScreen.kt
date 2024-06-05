@@ -59,9 +59,6 @@ class WordScreen : Screen {
         
         val viewModel = koinViewModel<WordViewModel>()
 
-        val state by viewModel.state.collectAsState()
-
-        val wordState = viewModel.currentWordState
 
         val wordFromWM = viewModel.stateFromWM.collectAsState(
             Word(

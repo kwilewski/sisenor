@@ -7,11 +7,14 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import kotlinx.datetime.Clock
+import kotlin.native.concurrent.ThreadLocal
 
 class WordsManagerTimer (
     private var triggerTime: Long = 5000L
@@ -20,8 +23,8 @@ class WordsManagerTimer (
     private val _isRunning = MutableStateFlow(false)
     val isRunning = _isRunning.asStateFlow()
 
-    private val _triggerFlow = MutableStateFlow(triggerTime)
-    val triggerFlow = _triggerFlow.asStateFlow()
+    private val _triggerFlow = MutableSharedFlow<Long>()
+    val triggerFlow = _triggerFlow.asSharedFlow()
 
     private val coroutineScope = CoroutineScope(Dispatchers.Default)
 
@@ -32,7 +35,9 @@ class WordsManagerTimer (
                     val elapsed = Clock.System.now().toEpochMilliseconds() - startTime
                     if (elapsed >= triggerTime) {
                         resetStartTime()
-                        _triggerFlow.value = Clock.System.now().toEpochMilliseconds()
+                        println("triggerFlow emitted")
+                        _triggerFlow.emit(Clock.System.now().toEpochMilliseconds())
+
                     }
                 }
                 delay(100L)
@@ -40,6 +45,13 @@ class WordsManagerTimer (
         }
     }
 
+    fun handleStartPause(){
+        if (isRunning.value) {
+            pause()
+        } else {
+            start()
+        }
+    }
 
     fun start() {
         if (!isRunning.value) {
