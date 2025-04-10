@@ -63,6 +63,9 @@ kotlin {
 
                 implementation(libs.kotlinx.serialization.json)
 
+                implementation(libs.kotlinx.coroutines.core)
+                implementation(libs.kotlinx.coroutines.android)
+
 
             }
         }
@@ -83,7 +86,7 @@ kotlin {
         val iosSimulatorArm64Main by getting
         val iosMain by creating {
             dependencies {
-                implementation ("app.cash.sqldelight:native-driver:2.0.1")
+                implementation (libs.sqldelight.ios)
                 implementation(libs.sqldelight.ios)
             }
             dependsOn(commonMain)
@@ -97,7 +100,7 @@ kotlin {
         androidMain.dependencies {
             implementation(libs.compose.ui.tooling.preview)
             implementation(libs.androidx.activity.compose)
-            implementation ("app.cash.sqldelight:android-driver:2.0.1")
+            implementation (libs.sqldelight.android)
             implementation(libs.koin.android)
             implementation(libs.koin.androidx.compose)
             implementation(libs.sqldelight.android)
@@ -138,8 +141,8 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
+        sourceCompatibility = JavaVersion.VERSION_21
+        targetCompatibility = JavaVersion.VERSION_21
     }
     dependencies {
         debugImplementation(libs.compose.ui.tooling)
@@ -157,13 +160,13 @@ sqldelight{
 }
 
 dependencies {
-    implementation("androidx.core:core:1.12.0")
+    implementation(libs.androidx.core)
     implementation(libs.androidx.material3.android)
     implementation(libs.androidx.room.common)
-    commonMainApi("dev.icerock.moko:mvvm-core:0.16.1")
-    commonMainApi("dev.icerock.moko:mvvm-compose:0.16.1")
-    commonMainApi("dev.icerock.moko:mvvm-flow:0.16.1")
-    commonMainApi("dev.icerock.moko:mvvm-flow-compose:0.16.1")
+    commonMainApi(libs.mvvm.core)
+    commonMainApi(libs.mvvm.compose)
+    commonMainApi(libs.mvvm.flow)
+    commonMainApi(libs.mvvm.flow.compose)
 }
 
 compose.desktop {

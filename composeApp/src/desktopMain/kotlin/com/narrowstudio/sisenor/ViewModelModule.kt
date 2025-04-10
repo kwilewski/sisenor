@@ -1,6 +1,6 @@
 package com.narrowstudio.sisenor
 
-import androidx.lifecycle.viewmodel.compose.viewModel
+
 import com.narrowstudio.sisenor.word.presentation.WordViewModel
 import com.narrowstudio.sisenor.wordList.presentation.WordListViewModel
 import org.koin.core.module.dsl.singleOf
